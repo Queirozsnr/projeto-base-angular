@@ -4,22 +4,22 @@
 			<app-header-screen title="Cadastro de produto" buttonLabel="Cadastrar Produto" [modalContent]="modalTemplate" [modalWidth]="modalWidth">
 				<ng-template #modalTemplate>
 					<form>
-						<div class="p-fluid">
-							<div class="p-field">
+						<div class="p-fluid grid mt-3">
+							<div class="field col-12 md:col-4">
 								<label for="productName">Product Name</label>
 								<input id="productName" type="text" pInputText>
 							</div>
-							<div class="p-field">
-								<label for="productDescription">Product Description</label>
-								<textarea rows="5" cols="30" placeholder="Your Message" pInputTextarea></textarea>
+							<div class="field col-12 md:col-4">
+								<label for="productCategory">Product Category</label>
+								<input id="productCategory" type="text" pInputText>
 							</div>
-							<div class="p-field">
+							<div class="field col-12 md:col-4">
 								<label for="productPrice">Product Price</label>
 								<input id="productPrice" type="number" pInputText>
 							</div>
-							<div class="p-field">
-								<label for="productCategory">Product Category</label>
-								<input id="productCategory" type="text" pInputText>
+							<div class="field col-12">
+								<label for="productDescription">Product Description</label>
+								<textarea id="productDescription" rows="5" cols="30" placeholder="Your Message" pInputTextarea></textarea>
 							</div>
 						</div>
 					</form>

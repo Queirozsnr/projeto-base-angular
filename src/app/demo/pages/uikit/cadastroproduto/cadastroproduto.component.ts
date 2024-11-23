@@ -25,7 +25,7 @@ export class CadastroProdutoComponent implements OnInit {
 
     modalVisible: boolean = false;
 
-    modalWidth: string = '50%'; // New property to control modal width
+    modalWidth: string = '50%';
 
     constructor(private productService: ProductService) { }
 
