@@ -1,8 +1,5 @@
 <div class="grid justify-content-between align-items-center mb-3 p-3">
     <h3>{{ title }}</h3>
-    <p-button [label]="buttonLabel" icon="pi pi-plus" (click)="showModal()"></p-button>
+    <button pButton pRipple [label]="buttonLabel" icon="pi pi-plus" (click)="showModal()"></button>
 </div>
 
-<p-dialog id="dialogHeader" header="Product Details" [(visible)]="modalVisible" [modal]="true" [closable]="true" (onHide)="hideModal()" [style]="{width: modalWidth}">
-    <ng-container *ngTemplateOutlet="modalContent"></ng-container>
-</p-dialog>

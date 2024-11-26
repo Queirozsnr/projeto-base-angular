@@ -5,10 +5,10 @@ import { Table } from 'primeng/table';
 import { ProductService } from 'src/app/demo/service/product.service';
 
 @Component({
-    templateUrl: './cadastroproduto.component.html',
+    templateUrl: './cadastrofornecedor.component.html',
     providers: [MessageService]
 })
-export class CadastroProdutoComponent implements OnInit {
+export class CadastroFornecedorComponent implements OnInit {
 
     productDialog: boolean = false;
 
@@ -33,12 +33,13 @@ export class CadastroProdutoComponent implements OnInit {
     constructor(private productService: ProductService, private messageService: MessageService) { }
 
     ngOnInit() {
-        this.productService.getProducts().then(data => this.products = data);
+        this.productService.getFornecedores().then(data => this.products = data);
 
         this.cols = [
             { field: 'product', header: 'Product' },
             { field: 'price', header: 'Price' },
             { field: 'category', header: 'Category' },
+            { field: 'rating', header: 'Reviews' },
             { field: 'inventoryStatus', header: 'Status' }
         ];
 
@@ -51,7 +52,6 @@ export class CadastroProdutoComponent implements OnInit {
 
     openNew() {
         this.product = {};
-        this.product.inventoryStatus = this.statuses[1].label;
         this.submitted = false;
         this.productDialog = true;
     }
@@ -73,14 +73,14 @@ export class CadastroProdutoComponent implements OnInit {
     confirmDeleteSelected() {
         this.deleteProductsDialog = false;
         this.products = this.products.filter(val => !this.selectedProducts.includes(val));
-        this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Products Deleted', life: 3000 });
+        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 });
         this.selectedProducts = [];
     }
 
     confirmDelete() {
         this.deleteProductDialog = false;
         this.products = this.products.filter(val => val.id !== this.product.id);
-        this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Produto deletado!', life: 3000 });
+        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
         this.product = {};
     }
 
@@ -97,7 +97,7 @@ export class CadastroProdutoComponent implements OnInit {
                 // @ts-ignore
                 this.product.inventoryStatus = this.product.inventoryStatus.value ? this.product.inventoryStatus.value : this.product.inventoryStatus;
                 this.products[this.findIndexById(this.product.id)] = this.product;
-                this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Produto Atualizado!', life: 3000 });
+                this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
             } else {
                 this.product.id = this.createId();
                 this.product.code = this.createId();
@@ -105,7 +105,7 @@ export class CadastroProdutoComponent implements OnInit {
                 // @ts-ignore
                 this.product.inventoryStatus = this.product.inventoryStatus ? this.product.inventoryStatus.value : 'INSTOCK';
                 this.products.push(this.product);
-                this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Produto Criado!', life: 3000 });
+                this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
             }
 
             this.products = [...this.products];

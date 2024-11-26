@@ -21,6 +21,13 @@ export class ProductService {
             .then(data => data);
     }
 
+    getFornecedores() {
+        return this.http.get<any>('assets/demo/data/fornecedores.json')
+            .toPromise()
+            .then(res => res.data as Product[])
+            .then(data => data);
+    }
+
     getProductsMixed() {
         return this.http.get<any>('assets/demo/data/products-mixed.json')
             .toPromise()

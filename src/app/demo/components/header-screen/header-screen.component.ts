@@ -1,4 +1,4 @@
-import { Component, Input, TemplateRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, TemplateRef } from '@angular/core';
 
 @Component({
   selector: 'app-header-screen',
@@ -8,13 +8,15 @@ import { Component, Input, TemplateRef } from '@angular/core';
 export class HeaderScreenComponent {
   @Input() title: string = 'Cadastro';
   @Input() buttonLabel: string = 'Novo Cadastro';
-  @Input() modalContent: TemplateRef<any>; // Updated input property
-  @Input() modalWidth: string = '50%'; // New input property
+  @Input() modalContent: TemplateRef<any>;
+  @Input() modalWidth: string = '50%';
+  @Output() buttonClick = new EventEmitter<void>();
   
   modalVisible: boolean = false;
 
   showModal() {
     this.modalVisible = true;
+    this.buttonClick.emit();
   }
 
   hideModal() {
