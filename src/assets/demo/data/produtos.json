@@ -1,0 +1,104 @@
+{
+	"data": [
+		{
+			"id": "1000",
+			"code": "A001",
+			"name": "Maçã",
+			"description": "Maçãs vermelhas frescas",
+			"price": 1.30,
+			"category": "Unidade",
+			"quantity": 24,
+			"inventoryStatus": "INSTOCK"
+		},
+		{
+			"id": "1001",
+			"code": "A002",
+			"name": "Banana",
+			"description": "Bananas amarelas maduras",
+			"price": 2.50,
+			"category": "Quilograma (Kg)",
+			"quantity": 61,
+			"inventoryStatus": "OUTOFSTOCK"
+		},
+		{
+			"id": "1002",
+			"code": "A003",
+			"name": "Cenoura",
+			"description": "Cenouras orgânicas",
+			"price": 3.20,
+			"category": "Unidade",
+			"quantity": 2,
+			"inventoryStatus": "LOWSTOCK"
+		},
+		{
+			"id": "1003",
+			"code": "A004",
+			"name": "Tomate",
+			"description": "Tomates frescos",
+			"price": 1.80,
+			"category": "Quilograma (Kg)",
+			"quantity": 25,
+			"inventoryStatus": "INSTOCK"
+		},
+		{
+			"id": "1004",
+			"code": "A005",
+			"name": "Alface",
+			"description": "Alface crocante",
+			"price": 2.00,
+			"category": "Unidade",
+			"quantity": 73,
+			"inventoryStatus": "INSTOCK"
+		},
+		{
+			"id": "1005",
+			"code": "A006",
+			"name": "Laranja",
+			"description": "Laranjas suculentas",
+			"price": 1.50,
+			"category": "Quilograma (Kg)",
+			"quantity": 0,
+			"inventoryStatus": "INSTOCK"
+		},
+		{
+			"id": "1006",
+			"code": "A007",
+			"name": "Brócolis",
+			"description": "Brócolis frescos",
+			"price": 2.80,
+			"category": "Unidade",
+			"quantity": 5,
+			"inventoryStatus": "LOWSTOCK"
+		},
+		{
+			"id": "1007",
+			"code": "A008",
+			"name": "Morango",
+			"description": "Morangos doces",
+			"price": 3.50,
+			"category": "Quilograma (Kg)",
+			"quantity": 23,
+			"inventoryStatus": "INSTOCK"
+		},
+		{
+			"id": "1008",
+			"code": "A009",
+			"name": "Uvas",
+			"description": "Uvas sem sementes",
+			"price": 4.00,
+			"category": "Unidade",
+			"quantity": 2,
+			"inventoryStatus": "LOWSTOCK"
+		},
+		{
+			"id": "1009",
+			"code": "A010",
+			"name": "Pepino",
+			"description": "Pepinos frescos",
+			"price": 1.20,
+			"category": "Quilograma (Kg)",
+			"quantity": 63,
+			"inventoryStatus": "INSTOCK"
+		}
+	]
+}

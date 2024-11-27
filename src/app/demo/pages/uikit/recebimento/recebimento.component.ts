@@ -5,10 +5,10 @@ import { Table } from 'primeng/table';
 import { ProductService } from 'src/app/demo/service/product.service';
 
 @Component({
-    templateUrl: './cadastroproduto.component.html',
+    templateUrl: './recebimento.component.html',
     providers: [MessageService]
 })
-export class CadastroProdutoComponent implements OnInit {
+export class RecebimentoComponent implements OnInit {
 
     productDialog: boolean = false;
 

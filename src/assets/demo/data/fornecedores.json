@@ -4,101 +4,91 @@
 			"id": "1000",
 			"code": "A001",
 			"name": "Fornecedor A",
-			"description": "Fornecedor de Maçãs vermelhas frescas",
+			"description": "123.456.789-00",
 			"price": 1.30,
-			"category": "Frutas",
-			"quantity": 24,
-			"inventoryStatus": "INSTOCK"
+			"category": "(92) 94567-1234",
+			"quantity": 24
 		},
 		{
 			"id": "1001",
 			"code": "A002",
 			"name": "Fornecedor B",
-			"description": "Fornecedor de Bananas amarelas maduras",
+			"description": "12.345.678/0001-00",
 			"price": 2.50,
-			"category": "Frutas",
-			"quantity": 61,
-			"inventoryStatus": "OUTOFSTOCK"
+			"category": "(92) 91234-5678",
+			"quantity": 61
 		},
 		{
 			"id": "1002",
 			"code": "A003",
 			"name": "Fornecedor C",
-			"description": "Fornecedor de Cenouras orgânicas",
+			"description": "987.654.321-00",
 			"price": 3.20,
-			"category": "Vegetais",
-			"quantity": 2,
-			"inventoryStatus": "LOWSTOCK"
+			"category": "(92) 98765-4321",
+			"quantity": 2
 		},
 		{
 			"id": "1003",
 			"code": "A004",
 			"name": "Fornecedor D",
-			"description": "Fornecedor de Tomates frescos",
+			"description": "98.765.432/0001-00",
 			"price": 1.80,
-			"category": "Vegetais",
-			"quantity": 25,
-			"inventoryStatus": "INSTOCK"
+			"category": "(92) 93456-7890",
+			"quantity": 25
 		},
 		{
 			"id": "1004",
 			"code": "A005",
 			"name": "Fornecedor E",
-			"description": "Fornecedor de Alface crocante",
+			"description": "123.123.123-12",
 			"price": 2.00,
-			"category": "Vegetais",
-			"quantity": 73,
-			"inventoryStatus": "INSTOCK"
+			"category": "(92) 92345-6789",
+			"quantity": 73
 		},
 		{
 			"id": "1005",
 			"code": "A006",
 			"name": "Fornecedor F",
-			"description": "Fornecedor de Laranjas suculentas",
+			"description": "12.123.123/0001-12",
 			"price": 1.50,
-			"category": "Frutas",
-			"quantity": 0,
-			"inventoryStatus": "INSTOCK"
+			"category": "(92) 95678-1234",
+			"quantity": 0
 		},
 		{
 			"id": "1006",
 			"code": "A007",
 			"name": "Fornecedor G",
-			"description": "Fornecedor de Brócolis frescos",
+			"description": "321.321.321-32",
 			"price": 2.80,
-			"category": "Vegetais",
-			"quantity": 5,
-			"inventoryStatus": "LOWSTOCK"
+			"category": "(92) 91234-5678",
+			"quantity": 5
 		},
 		{
 			"id": "1007",
 			"code": "A008",
 			"name": "Fornecedor H",
-			"description": "Fornecedor de Morangos doces",
+			"description": "32.321.321/0001-32",
 			"price": 3.50,
-			"category": "Frutas",
-			"quantity": 23,
-			"inventoryStatus": "INSTOCK"
+			"category": "(92) 98765-4321",
+			"quantity": 23
 		},
 		{
 			"id": "1008",
 			"code": "A009",
 			"name": "Fornecedor I",
-			"description": "Fornecedor de Uvas sem sementes",
+			"description": "456.456.456-45",
 			"price": 4.00,
-			"category": "Frutas",
-			"quantity": 2,
-			"inventoryStatus": "LOWSTOCK"
+			"category": "(92) 93456-7890",
+			"quantity": 2
 		},
 		{
 			"id": "1009",
 			"code": "A010",
 			"name": "Fornecedor J",
-			"description": "Fornecedor de Pepinos frescos",
+			"description": "45.456.456/0001-45",
 			"price": 1.20,
-			"category": "Vegetais",
-			"quantity": 63,
-			"inventoryStatus": "INSTOCK"
+			"category": "(92) 92345-6789",
+			"quantity": 63
 		}
 	]
 }
