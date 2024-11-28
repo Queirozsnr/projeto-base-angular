@@ -1,0 +1,114 @@
+{
+	"data": [
+		{
+			"id": "1000",
+			"code": "A001",
+			"name": "Maçã",
+			"description": "Fornecedor A",
+			"price": 1.30,
+			"category": "Unidade",
+			"quantity": 24,
+			"inventoryStatus": "INSTOCK",
+			"date": "15/01/2024 10:30"
+		},
+		{
+			"id": "1001",
+			"code": "A002",
+			"name": "Banana",
+			"description": "Fornecedor B",
+			"price": 2.50,
+			"category": "Quilograma (Kg)",
+			"quantity": 61,
+			"inventoryStatus": "OUTOFSTOCK",
+			"date": "20/02/2024 14:45"
+		},
+		{
+			"id": "1002",
+			"code": "A003",
+			"name": "Cenoura",
+			"description": "Fornecedor C",
+			"price": 3.20,
+			"category": "Unidade",
+			"quantity": 2,
+			"inventoryStatus": "LOWSTOCK",
+			"date": "10/03/2024 09:00"
+		},
+		{
+			"id": "1003",
+			"code": "A004",
+			"name": "Tomate",
+			"description": "Fornecedor D",
+			"price": 1.80,
+			"category": "Quilograma (Kg)",
+			"quantity": 25,
+			"inventoryStatus": "INSTOCK",
+			"date": "25/04/2024 16:15"
+		},
+		{
+			"id": "1004",
+			"code": "A005",
+			"name": "Alface",
+			"description": "Fornecedor E",
+			"price": 2.00,
+			"category": "Unidade",
+			"quantity": 73,
+			"inventoryStatus": "INSTOCK",
+			"date": "30/05/2024 11:20"
+		},
+		{
+			"id": "1005",
+			"code": "A006",
+			"name": "Laranja",
+			"description": "Fornecedor F",
+			"price": 1.50,
+			"category": "Quilograma (Kg)",
+			"quantity": 0,
+			"inventoryStatus": "INSTOCK",
+			"date": "18/06/2024 13:50"
+		},
+		{
+			"id": "1006",
+			"code": "A007",
+			"name": "Brócolis",
+			"description": "Fornecedor G",
+			"price": 2.80,
+			"category": "Unidade",
+			"quantity": 5,
+			"inventoryStatus": "LOWSTOCK",
+			"date": "22/07/2024 08:40"
+		},
+		{
+			"id": "1007",
+			"code": "A008",
+			"name": "Morango",
+			"description": "Fornecedor H",
+			"price": 3.50,
+			"category": "Quilograma (Kg)",
+			"quantity": 23,
+			"inventoryStatus": "INSTOCK",
+			"date": "14/08/2024 15:30"
+		},
+		{
+			"id": "1008",
+			"code": "A009",
+			"name": "Uvas",
+			"description": "Fornecedor I",
+			"price": 4.00,
+			"category": "Unidade",
+			"quantity": 2,
+			"inventoryStatus": "LOWSTOCK",
+			"date": "05/09/2024 12:10"
+		},
+		{
+			"id": "1009",
+			"code": "A010",
+			"name": "Pepino",
+			"description": "Fornecedor J",
+			"price": 1.20,
+			"category": "Quilograma (Kg)",
+			"quantity": 63,
+			"inventoryStatus": "INSTOCK",
+			"date": "28/10/2024 17:55"
+		}
+	]
+}

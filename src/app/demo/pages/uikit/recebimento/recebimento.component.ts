@@ -33,7 +33,7 @@ export class RecebimentoComponent implements OnInit {
     constructor(private productService: ProductService, private messageService: MessageService) { }
 
     ngOnInit() {
-        this.productService.getProdutos().then(data => this.products = data);
+        this.productService.getRecebimento().then(data => this.products = data);
 
         this.cols = [
             { field: 'product', header: 'Product' },
