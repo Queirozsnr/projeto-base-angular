@@ -1,0 +1,165 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <app-header-screen title="Cadastro de Usuários" buttonLabel="Novo Usuário" (click)="openNew()" />
+            <p-toast></p-toast>
+            <p-table #dt [value]="products" [columns]="cols" responsiveLayout="scroll" [rows]="10"
+                [globalFilterFields]="['name','code','price','category','departamento','profile', 'email']"
+                [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [(selection)]="selectedProducts" selectionMode="multiple" [rowHover]="true" dataKey="id">
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">Gerencie Produtos</h5>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Pesquisar"
+                                class="w-full sm:w-auto" />
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="name">Nome <p-sortIcon field="name"></p-sortIcon></th>
+                        <th pSortableColumn="inventoryStatus">CPF <p-sortIcon field="inventoryStatus"></p-sortIcon></th>
+                        <th pSortableColumn="category">Contato <p-sortIcon field="category"></p-sortIcon></th>
+                        <th pSortableColumn="departamento">Departamento <p-sortIcon field="departamento"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
+                        <th pSortableColumn="profile">Tipo de Perfil <p-sortIcon field="profile"></p-sortIcon></th>
+                        <th>Ações</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-product>
+                    <tr>
+                        <td>
+                            <span class="p-column-title">Nome</span>
+                            {{product.name}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">CPF</span>
+                            {{product.description}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Contato</span>
+                            {{product.category}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Departamento</span>
+                            {{product.departamento}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Email</span>
+                            {{product.email}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Tipo de Perfil</span>
+                            {{product.profile}}
+                        </td>
+                        <td>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-pencil"
+                                    class="p-button-rounded p-button-success"
+                                    (click)="editProduct(product)"></button>
+                                <button pButton pRipple icon="pi pi-key" class="p-button-rounded p-button mx-2"
+                                (click)="resetPassoword(product)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                                    (click)="deleteProduct(product)"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <p-dialog [(visible)]="productDialog" [style]="{width: '40rem'}" header="Novo Usuário" [modal]="true"
+            class="p-fluid">
+            <ng-template pTemplate="content">
+                <div class="formgrid grid mt-3 py-3">
+                    <div class="field col-12 md:col-6">
+                        <label for="name">Nome</label>
+                        <input type="text" pInputText id="name" [(ngModel)]="product.name" required autofocus
+                            [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.name}" />
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.name">Name is required.</small>
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <label for="description">CPF</label>
+                        <input type="text" pInputText id="cpf" [(ngModel)]="product.description" required autofocus
+                            [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.description}" />
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.description">Name is required.</small>
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <label for="quantity">Contato</label>
+                        <input type="text" pInputText id="name" [(ngModel)]="product.category" required autofocus
+                            [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.category}" />
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <label for="quantity">Tipo de Perfil</label>
+                        <p-dropdown [options]="statuses" [(ngModel)]="product.profile" placeholder="Selecione um perfil"
+                            id="profile" required autofocus optionLabel="label" optionValue="value"
+                            [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.profile}"></p-dropdown>
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.profile">Status is required.</small>
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <label for="departamento">Departamento</label>
+                        <input type="text" pInputText id="departamento" [(ngModel)]="product.departamento" required autofocus
+                            [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.name}" />
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.departamento">Departamento is required.</small>
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <label for="email">Email</label>
+                        <input type="text" pInputText id="email" [(ngModel)]="product.email" required autofocus
+                            [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.email}" />
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.email">Email is required.</small>
+                    </div>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+                <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+                    (click)="hideDialog()"></button>
+                <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text"
+                    (click)="saveProduct()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="deleteProductDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span *ngIf="product">Tem certeza de que deseja excluir <b>{{product.name}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Não"
+                    (click)="deleteProductDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Sim"
+                    (click)="confirmDelete()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="resetPassowordDialog" header="Resetar Senha" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span *ngIf="product">A senha de <b>{{product.name}}</b> será resetada para <b>'DIST12345'</b>, tem certeza que deseja resetar?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Não"
+                    (click)="resetPassowordDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Sim"
+                    (click)="confirmResetPassowordDialog()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="deleteProductsDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>Tem certeza de que deseja excluir selected products?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Não"
+                    (click)="deleteProductsDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Sim"
+                    (click)="confirmDeleteSelected()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

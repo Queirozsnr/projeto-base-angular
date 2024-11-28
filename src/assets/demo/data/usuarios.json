@@ -1,0 +1,104 @@
+{
+	"data": [
+		{
+			"id": "1000",
+			"code": "A001",
+			"name": "João Silva",
+			"description": "123.456.789-00",
+			"category": "(92) 94567-1234",
+			"profile": "Usuário",
+			"email": "joao.silva@gmail.com",
+			"departamento": "Vendas"
+		},
+		{
+			"id": "1001",
+			"code": "A002",
+			"name": "Maria Oliveira",
+			"description": "123.456.789-00",
+			"category": "(92) 91234-5678",
+			"profile": "Usuário",
+			"email": "maria.oliveira@gmail.com",
+			"departamento": "Marketing"
+		},
+		{
+			"id": "1002",
+			"code": "A003",
+			"name": "Carlos Souza",
+			"description": "987.654.321-00",
+			"category": "(92) 98765-4321",
+			"profile": "Responsável",
+			"email": "carlos.souza@gmail.com",
+			"departamento": "TI"
+		},
+		{
+			"id": "1003",
+			"code": "A004",
+			"name": "Ana Pereira",
+			"description": "987.654.321-00",
+			"category": "(92) 93456-7890",
+			"profile": "Usuário",
+			"email": "ana.pereira@gmail.com",
+			"departamento": "RH"
+		},
+		{
+			"id": "1004",
+			"code": "A005",
+			"name": "Pedro Lima",
+			"description": "123.123.123-12",
+			"category": "(92) 92345-6789",
+			"profile": "Gestor",
+			"email": "pedro.lima@gmail.com",
+			"departamento": "Financeiro"
+		},
+		{
+			"id": "1005",
+			"code": "A006",
+			"name": "Fernanda Costa",
+			"description": "123.123.123-12",
+			"category": "(92) 95678-1234",
+			"profile": "Responsável",
+			"email": "fernanda.costa@gmail.com",
+			"departamento": "TI"
+		},
+		{
+			"id": "1006",
+			"code": "A007",
+			"name": "Lucas Almeida",
+			"description": "321.321.321-32",
+			"category": "(92) 91234-5678",
+			"profile": "Usuário",
+			"email": "lucas.almeida@gmail.com",
+			"departamento": "Vendas"
+		},
+		{
+			"id": "1007",
+			"code": "A008",
+			"name": "Juliana Fernandes",
+			"description": "321.321.321-32",
+			"category": "(92) 98765-4321",
+			"profile": "Gestor",
+			"email": "juliana.fernandes@gmail.com",
+			"departamento": "Marketing"
+		},
+		{
+			"id": "1008",
+			"code": "A009",
+			"name": "Rafael Rodrigues",
+			"description": "456.456.456-45",
+			"category": "(92) 93456-7890",
+			"profile": "Responsável",
+			"email": "rafael.rodrigues@gmail.com",
+			"departamento": "Financeiro"
+		},
+		{
+			"id": "1009",
+			"code": "A010",
+			"name": "Beatriz Martins",
+			"description": "456.456.456-45",
+			"category": "(92) 92345-6789",
+			"profile": "Usuário",
+			"email": "beatriz.martins@gmail.com",
+			"departamento": "RH"
+		}
+	]
+}

@@ -18,26 +18,21 @@
                         <th pSortableColumn="code">Código <p-sortIcon field="code"></p-sortIcon></th>
                         <th pSortableColumn="name">Nome <p-sortIcon field="name"></p-sortIcon></th>
                         <th pSortableColumn="category">Unidade Medida <p-sortIcon field="category"></p-sortIcon></th>
-                        <th>Triagem</th>
-                        <th pSortableColumn="inventoryStatus">Status <p-sortIcon field="inventoryStatus"></p-sortIcon></th>
                         <th>Ações</th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-product>
                     <tr>
-                        <td style="width:25%; min-width:10rem;"><span class="p-column-title">Código</span>
+                        <td style="width:33%; min-width:10rem;"><span class="p-column-title">Código</span>
                             {{product.code || product.id}}
                         </td>
-                        <td style="width:25%; min-width:10rem;">
+                        <td style="width:33%; min-width:10rem;">
                             <span class="p-column-title">Nome</span>
                             {{product.name}}
                         </td>
-                        <td style="width:25%; min-width:10rem;">
+                        <td style="width:33%; min-width:10rem;">
                             <span class="p-column-title">Categoria</span>
                             {{product.category}}
-                        </td>
-                        <td style="width:25%; min-width: 10rem;"><span class="p-column-title">Status</span>
-							<app-cbadge [status]="product.inventoryStatus"></app-cbadge>
                         </td>
                         <td>
                             <div class="flex">
@@ -52,7 +47,6 @@
 
         <p-dialog [(visible)]="productDialog" [style]="{width: '450px'}" header="Novo Produto" [modal]="true" class="p-fluid">
             <ng-template pTemplate="content">
-                <img [src]="'assets/demo/images/product/' + product.image" [alt]="product.image" width="150" class="mt-0 mx-auto mb-5 block shadow-2" *ngIf="product.image">
                 <div class="field">
                     <label for="name">Nome</label>
                     <input type="text" pInputText id="name" [(ngModel)]="product.name" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.name}"/>
@@ -62,18 +56,6 @@
                     <label for="description">Código</label>
                     <input type="text" pInputText id="code" [(ngModel)]="product.code" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.code}"/>
                 </div>
-                <div class="field">
-                    <label for="status">Triagem</label>
-                    <p-dropdown [(ngModel)]="product.inventoryStatus" inputId="inventoryStatus" optionValue="label" [options]="statuses" placeholder="Select">
-                        <ng-template pTemplate="selectedItem">
-                            <app-cbadge [status]="product.inventoryStatus"></app-cbadge>
-                        </ng-template>
-                        <ng-template let-option pTemplate="item">
-                            <app-cbadge [status]="option.label"></app-cbadge>
-                        </ng-template>
-                    </p-dropdown>
-                </div>
-
                 <div class="field">
                     <label class="mb-3">Tipo</label>
                     <div class="formgrid grid">
@@ -98,22 +80,22 @@
         <p-dialog [(visible)]="deleteProductDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span *ngIf="product">Are you sure you want to delete <b>{{product.name}}</b>?</span>
+                <span *ngIf="product">Tem certeza de que deseja excluir <b>{{product.name}}</b>?</span>
             </div>
             <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteProductDialog = false"></button>
-                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()"></button>
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Não" (click)="deleteProductDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Sim" (click)="confirmDelete()"></button>
             </ng-template>
         </p-dialog>
 
         <p-dialog [(visible)]="deleteProductsDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span>Are you sure you want to delete selected products?</span>
+                <span>Tem certeza de que deseja excluir selected products?</span>
             </div>
             <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteProductsDialog = false"></button>
-                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDeleteSelected()"></button>
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Não" (click)="deleteProductsDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Sim" (click)="confirmDeleteSelected()"></button>
             </ng-template>
         </p-dialog>
     </div>

@@ -23,6 +23,7 @@ export class AppMenuComponent implements OnInit {
             {
                 label: 'Cadastros',
                 items: [
+                    { label: 'Usuários', icon: 'pi pi-fw pi-users', routerLink: ['/uikit/cadastrousuario'] },
                     { label: 'Produtos', icon: 'pi pi-fw pi-box', routerLink: ['/uikit/cadastroproduto'] },
                     { label: 'Fornecedores', icon: 'pi pi-fw pi-building', routerLink: ['/uikit/cadastrofornecedor'] },
                 ]

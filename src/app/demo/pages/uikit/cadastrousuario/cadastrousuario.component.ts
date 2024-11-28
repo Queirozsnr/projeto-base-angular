@@ -5,14 +5,16 @@ import { Table } from 'primeng/table';
 import { ProductService } from 'src/app/demo/service/product.service';
 
 @Component({
-    templateUrl: './recebimento.component.html',
+    templateUrl: './cadastrousuario.component.html',
     providers: [MessageService]
 })
-export class RecebimentoComponent implements OnInit {
+export class CadastroUsuarioComponent implements OnInit {
 
     productDialog: boolean = false;
 
     deleteProductDialog: boolean = false;
+
+    resetPassowordDialog: boolean = false;
 
     deleteProductsDialog: boolean = false;
 
@@ -33,25 +35,25 @@ export class RecebimentoComponent implements OnInit {
     constructor(private productService: ProductService, private messageService: MessageService) { }
 
     ngOnInit() {
-        this.productService.getRecebimento().then(data => this.products = data);
+        this.productService.getUsuarios().then(data => this.products = data);
 
         this.cols = [
             { field: 'product', header: 'Product' },
             { field: 'price', header: 'Price' },
             { field: 'category', header: 'Category' },
+            { field: 'rating', header: 'Reviews' },
             { field: 'inventoryStatus', header: 'Status' }
         ];
 
         this.statuses = [
-            { label: 'INSTOCK', value: 'instock' },
-            { label: 'LOWSTOCK', value: 'lowstock' },
-            { label: 'OUTOFSTOCK', value: 'outofstock' }
+            { label: 'Usuário', value: 'Usuário' },
+            { label: 'Responsável', value: 'Responsável' },
+            { label: 'Gestor', value: 'Gestor' }
         ];
     }
 
     openNew() {
         this.product = {};
-        this.product.inventoryStatus = this.statuses[1].label;
         this.submitted = false;
         this.productDialog = true;
     }
@@ -70,6 +72,11 @@ export class RecebimentoComponent implements OnInit {
         this.product = { ...product };
     }
 
+    resetPassoword(product: Product) {
+        this.resetPassowordDialog = true;
+        this.product = { ...product };
+    }
+
     confirmDeleteSelected() {
         this.deleteProductsDialog = false;
         this.products = this.products.filter(val => !this.selectedProducts.includes(val));
@@ -80,8 +87,13 @@ export class RecebimentoComponent implements OnInit {
     confirmDelete() {
         this.deleteProductDialog = false;
         this.products = this.products.filter(val => val.id !== this.product.id);
-        this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Produto deletado!', life: 3000 });
+        this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Product Deletado', life: 3000 });
         this.product = {};
+    }
+
+    confirmResetPassowordDialog() {
+        this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Senha resetada!', life: 3000 });
+        this.resetPassowordDialog = false;
     }
 
     hideDialog() {
@@ -95,9 +107,9 @@ export class RecebimentoComponent implements OnInit {
         if (this.product.name?.trim()) {
             if (this.product.id) {
                 // @ts-ignore
-                this.product.inventoryStatus = this.product.inventoryStatus.value ? this.product.inventoryStatus.value : this.product.inventoryStatus;
+                this.product.inventoryStatus = this.product.inventoryStatus?.value ? this.product.inventoryStatus.value : this.product.inventoryStatus;
                 this.products[this.findIndexById(this.product.id)] = this.product;
-                this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Produto Atualizado!', life: 3000 });
+                this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Product Atualizado', life: 3000 });
             } else {
                 this.product.id = this.createId();
                 this.product.code = this.createId();
@@ -105,7 +117,7 @@ export class RecebimentoComponent implements OnInit {
                 // @ts-ignore
                 this.product.inventoryStatus = this.product.inventoryStatus ? this.product.inventoryStatus.value : 'INSTOCK';
                 this.products.push(this.product);
-                this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Produto Criado!', life: 3000 });
+                this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Product Criado', life: 3000 });
             }
 
             this.products = [...this.products];
