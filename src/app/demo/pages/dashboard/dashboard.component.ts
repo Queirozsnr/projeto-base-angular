@@ -18,6 +18,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     chartOptions: any;
 
+    fruitSalesData: any;
+
+    fruitSalesOptions: any;
+
     subscription!: Subscription;
 
     constructor(private productService: ProductService, public layoutService: LayoutService) {
@@ -30,7 +34,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.initChart();
-        this.productService.getProductsSmall().then(data => this.products = data);
+        this.initFruitSalesChart();
+        this.productService.getDashboard().then(data => this.products = data);
 
         this.items = [
             { label: 'Add New', icon: 'pi pi-fw pi-plus' },
@@ -45,10 +50,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
         this.chartData = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho'],
             datasets: [
                 {
-                    label: 'First Dataset',
+                    label: 'Valor Esperado',
                     data: [65, 59, 80, 81, 56, 55, 40],
                     fill: false,
                     backgroundColor: documentStyle.getPropertyValue('--bluegray-700'),
@@ -56,7 +61,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                     tension: .4
                 },
                 {
-                    label: 'Second Dataset',
+                    label: 'Valor Realizado',
                     data: [28, 48, 40, 19, 86, 27, 90],
                     fill: false,
                     backgroundColor: documentStyle.getPropertyValue('--green-600'),
@@ -91,6 +96,47 @@ export class DashboardComponent implements OnInit, OnDestroy {
                     grid: {
                         color: surfaceBorder,
                         drawBorder: false
+                    }
+                }
+            }
+        };
+    }
+
+    initFruitSalesChart() {
+        const documentStyle = getComputedStyle(document.documentElement);
+        const textColor = documentStyle.getPropertyValue('--text-color');
+        const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
+
+        this.fruitSalesData = {
+            labels: ['Banana', 'Maçã', 'Kiwi', 'Manga', 'Pera', 'Alface'],
+            datasets: [
+                {
+                    data: [300, 50, 100, 80, 120, 60],
+                    backgroundColor: [
+                        documentStyle.getPropertyValue('--orange-500'),
+                        documentStyle.getPropertyValue('--cyan-500'),
+                        documentStyle.getPropertyValue('--pink-500'),
+                        documentStyle.getPropertyValue('--green-500'),
+                        documentStyle.getPropertyValue('--purple-500'),
+                        documentStyle.getPropertyValue('--teal-500')
+                    ],
+                    hoverBackgroundColor: [
+                        documentStyle.getPropertyValue('--orange-400'),
+                        documentStyle.getPropertyValue('--cyan-400'),
+                        documentStyle.getPropertyValue('--pink-400'),
+                        documentStyle.getPropertyValue('--green-400'),
+                        documentStyle.getPropertyValue('--purple-400'),
+                        documentStyle.getPropertyValue('--teal-400')
+                    ]
+                }
+            ]
+        };
+
+        this.fruitSalesOptions = {
+            plugins: {
+                legend: {
+                    labels: {
+                        color: textColor
                     }
                 }
             }

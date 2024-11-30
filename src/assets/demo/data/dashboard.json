@@ -1,0 +1,114 @@
+{
+	"data": [
+		{
+			"id": "1000",
+			"code": "f230fh0g3",
+			"name": "Maçã",
+			"description": "Maçã vermelha fresca",
+			"price": 3,
+			"category": "Frutas",
+			"quantity": 50,
+			"inventoryStatus": "INSTOCK",
+			"rating": 5
+		},
+		{
+			"id": "1001",
+			"code": "nvklal433",
+			"name": "Banana",
+			"description": "Banana madura",
+			"price": 2,
+			"category": "Frutas",
+			"quantity": 100,
+			"inventoryStatus": "INSTOCK",
+			"rating": 4
+		},
+		{
+			"id": "1002",
+			"code": "zz21cz3c1",
+			"name": "Laranja",
+			"description": "Laranja doce",
+			"price": 4,
+			"category": "Frutas",
+			"quantity": 30,
+			"inventoryStatus": "LOWSTOCK",
+			"rating": 3
+		},
+		{
+			"id": "1003",
+			"code": "244wgerg2",
+			"name": "Morango",
+			"description": "Morango fresco",
+			"price": 6,
+			"category": "Frutas",
+			"quantity": 20,
+			"inventoryStatus": "INSTOCK",
+			"rating": 5
+		},
+		{
+			"id": "1004",
+			"code": "h456wer53",
+			"name": "Uva",
+			"description": "Uva roxa",
+			"price": 5,
+			"category": "Frutas",
+			"quantity": 40,
+			"inventoryStatus": "INSTOCK",
+			"rating": 4
+		},
+		{
+			"id": "1005",
+			"code": "av2231fwg",
+			"name": "Abacaxi",
+			"description": "Abacaxi doce",
+			"price": 7,
+			"category": "Frutas",
+			"quantity": 0,
+			"inventoryStatus": "OUTOFSTOCK",
+			"rating": 4
+		},
+		{
+			"id": "1006",
+			"code": "bib36pfvm",
+			"name": "Melancia",
+			"description": "Melancia fresca",
+			"price": 10,
+			"category": "Frutas",
+			"quantity": 15,
+			"inventoryStatus": "LOWSTOCK",
+			"rating": 3
+		},
+		{
+			"id": "1007",
+			"code": "mbvjkgip5",
+			"name": "Pera",
+			"description": "Pera madura",
+			"price": 4,
+			"category": "Frutas",
+			"quantity": 25,
+			"inventoryStatus": "INSTOCK",
+			"rating": 5
+		},
+		{
+			"id": "1008",
+			"code": "vbb124btr",
+			"name": "Manga",
+			"description": "Manga doce",
+			"price": 6,
+			"category": "Frutas",
+			"quantity": 10,
+			"inventoryStatus": "LOWSTOCK",
+			"rating": 4
+		},
+		{
+			"id": "1009",
+			"code": "cm230f032",
+			"name": "Kiwi",
+			"description": "Kiwi fresco",
+			"price": 8,
+			"category": "Frutas",
+			"quantity": 35,
+			"inventoryStatus": "INSTOCK",
+			"rating": 3
+		}
+	]
+}
