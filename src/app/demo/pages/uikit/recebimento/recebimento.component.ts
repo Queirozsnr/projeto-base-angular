@@ -32,10 +32,20 @@ export class RecebimentoComponent implements OnInit {
 
     estoqueProdutos: string[] = [];
 
+    groupedProducts: any[] = [];
+
+    expandedRows: { [key: string]: boolean } = {};
+
+    viewProductDialog: boolean = false;
+    viewedProduct: Product = {};
+
     constructor(private productService: ProductService, private messageService: MessageService) { }
 
     ngOnInit() {
-        this.productService.getRecebimento().then(data => this.products = data);
+        this.productService.getRecebimento().then(data => {
+            this.products = data;
+            this.groupProductsBySupplier();
+        });
 
         this.cols = [
             { field: 'product', header: 'Product' },
@@ -47,7 +57,8 @@ export class RecebimentoComponent implements OnInit {
         this.statuses = [
             { label: 'INSTOCK', value: 'instock' },
             { label: 'LOWSTOCK', value: 'lowstock' },
-            { label: 'OUTOFSTOCK', value: 'outofstock' }
+            { label: 'OUTOFSTOCK', value: 'outofstock' },
+            { label: 'APROVADO', value: 'APROVADO' }
         ];
 
         this.getProductNames();
@@ -79,6 +90,8 @@ export class RecebimentoComponent implements OnInit {
         this.products = this.products.filter(val => !this.selectedProducts.includes(val));
         this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Products Deletado', life: 3000 });
         this.selectedProducts = [];
+        this.groupProductsBySupplier();
+        this.applyGlobalFilter();
     }
 
     confirmDelete() {
@@ -86,6 +99,16 @@ export class RecebimentoComponent implements OnInit {
         this.products = this.products.filter(val => val.id !== this.product.id);
         this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Produto deletado!', life: 3000 });
         this.product = {};
+        this.groupProductsBySupplier();
+        this.applyGlobalFilter();
+    }
+
+    applyGlobalFilter() {
+        const filterInput = document.querySelector('input[placeholder="Pesquisar"]') as HTMLInputElement;
+        if (filterInput) {
+            const event = new Event('input');
+            filterInput.dispatchEvent(event);
+        }
     }
 
     hideDialog() {
@@ -140,12 +163,77 @@ export class RecebimentoComponent implements OnInit {
     }
 
     onGlobalFilter(table: Table, event: Event) {
-        table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+        const value = (event.target as HTMLInputElement).value.toLowerCase();
+        table.filterGlobal(value, 'contains');
+
+        // Reset groupedProducts before applying the filter
+        this.groupProductsBySupplier();
+
+        this.groupedProducts.forEach(group => {
+            group.filteredProducts = group.products.filter(product => 
+                product.name.toLowerCase().includes(value) ||
+                product.category.toLowerCase().includes(value) ||
+                product.inventoryStatus.toLowerCase().includes(value)
+            );
+        });
+
+        this.groupedProducts = this.groupedProducts.filter(group => 
+            group.supplier.toLowerCase().includes(value) ||
+            group.date.toLowerCase().includes(value) ||
+            group.filteredProducts.length > 0
+        );
     }
 
     getProductNames() {
         this.productService.getProdutos().then(data => {
             this.estoqueProdutos = data.map(product => product.name);
         });
+    }
+
+    groupProductsBySupplier() {
+        const grouped = this.products.reduce((acc, product) => {
+            const supplier = product.description;
+            if (!acc[supplier]) {
+                acc[supplier] = { supplier, date: product.date, products: [], status: 'PENDENTE' };
+            }
+            acc[supplier].products.push(product);
+            return acc;
+        }, {});
+
+        this.groupedProducts = Object.values(grouped);
+
+        this.groupedProducts.forEach(group => {
+            if (group.products.some(product => product.inventoryStatus === 'EM ANÁLISE')) {
+                group.status = 'EM ANÁLISE';
+            }
+        });
+    }
+
+    toggleRow(event: Event, group: any) {
+        event.preventDefault();
+        this.expandedRows[group.supplier] = !this.expandedRows[group.supplier];
+    }
+
+    expandAllRows() {
+        this.groupedProducts.forEach(group => {
+            this.expandedRows[group.supplier] = true;
+        });
+    }
+
+    collapseAllRows() {
+        this.expandedRows = {};
+    }
+
+    toggleAllRows() {
+        if (Object.keys(this.expandedRows).length === this.groupedProducts.length) {
+            this.collapseAllRows();
+        } else {
+            this.expandAllRows();
+        }
+    }
+
+    viewProduct(product: Product) {
+        this.viewedProduct = product;
+        this.viewProductDialog = true;
     }
 }

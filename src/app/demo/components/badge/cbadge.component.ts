@@ -7,18 +7,23 @@ import { Component, Input } from '@angular/core';
 })
 export class CbadgeComponent {
   @Input() status: string = '';
-  
+  @Input() label: string = '';
+
+  private statusMap = {
+    'APROVADO': { label: 'APROVADO', color: 'instock' },
+    'PENDENTE': { label: 'PENDENTE', color: 'proposal' },
+    'EM ANÁLISE': { label: 'EM ANÁLISE', color: 'lowstock' },
+    'REPROVADO': { label: 'REPROVADO', color: 'outofstock' }
+  };
 
   getStatusLabel() {
-    switch (this.status) {
-      case 'INSTOCK':
-        return 'APROVADO';
-            case 'LOWSTOCK':
-        return 'EM ANÁLISE';
-            case 'OUTOFSTOCK':
-        return 'REPROVADO';
-      default:
-        return '';
+    if (this.label) {
+      return this.label;
     }
+    return this.statusMap[this.status]?.label || '';
+  }
+
+  getStatusColor() {
+    return this.statusMap[this.status]?.color || '';
   }
 }
