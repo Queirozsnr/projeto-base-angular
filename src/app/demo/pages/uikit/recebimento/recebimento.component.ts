@@ -16,7 +16,7 @@ export class RecebimentoComponent implements OnInit {
 
     deleteProductsDialog: boolean = false;
 
-    products: Product[] = [];
+    suppliers: any[] = []; // Change to hold suppliers
 
     product: Product = {};
 
@@ -32,19 +32,23 @@ export class RecebimentoComponent implements OnInit {
 
     estoqueProdutos: string[] = [];
 
-    groupedProducts: any[] = [];
-
     expandedRows: { [key: string]: boolean } = {};
 
     viewProductDialog: boolean = false;
     viewedProduct: Product = {};
 
+    editProductDialog: boolean = false;
+
+    selectedProductToAdd: string = '';
+
+    selectedProductQuantity: number = 0;
+
     constructor(private productService: ProductService, private messageService: MessageService) { }
 
     ngOnInit() {
         this.productService.getRecebimento().then(data => {
-            this.products = data;
-            this.groupProductsBySupplier();
+            this.suppliers = data;
+            this.updateSupplierStatuses();
         });
 
         this.cols = [
@@ -55,29 +59,73 @@ export class RecebimentoComponent implements OnInit {
         ];
 
         this.statuses = [
-            { label: 'INSTOCK', value: 'instock' },
-            { label: 'LOWSTOCK', value: 'lowstock' },
-            { label: 'OUTOFSTOCK', value: 'outofstock' },
+            { label: 'PENDENTE', value: 'PENDENTE' },
+            { label: 'EM ANÁLISE', value: 'EM ANÁLISE' },
             { label: 'APROVADO', value: 'APROVADO' }
         ];
 
         this.getProductNames();
     }
 
+    updateSupplierStatuses() {
+        this.suppliers.forEach(supplier => {
+            supplier.status = supplier.products.some(p => p.inventoryStatus !== 'PENDENTE') ? 'EM ANÁLISE' : 'PENDENTE';
+        });
+    }
+
     openNew() {
         this.product = {};
-        this.product.inventoryStatus = this.statuses[1].label;
+        this.product.inventoryStatus = 'PENDENTE'; // Set default status to PENDENTE
+        this.product.date = new Date().toISOString().split('T')[0]; // Set default date to today
+        this.product.products = []; // Initialize products array
         this.submitted = false;
-        this.productDialog = true;
+        this.editProductDialog = true; // Use the same modal as edit
     }
 
     deleteSelectedProducts() {
         this.deleteProductsDialog = true;
     }
 
-    editProduct(product: Product) {
-        this.product = { ...product };
-        this.productDialog = true;
+    editProduct(supplier: any) {
+        this.product = { ...supplier };
+        this.editProductDialog = true;
+    }
+
+    addProductToGroup() {
+        this.productService.getProdutos().then(data => {
+            const selectedProduct = data.find(product => product.name === this.selectedProductToAdd);
+            if (selectedProduct) {
+                const newProduct: Product = {
+                    id: this.createId(),
+                    name: selectedProduct.name,
+                    category: selectedProduct.category,
+                    inventoryStatus: 'PENDENTE' as 'PENDENTE',
+                    quantity: this.selectedProductQuantity,
+                    // ...other necessary fields...
+                };
+                if (!this.product.products) {
+                    this.product.products = [];
+                }
+                this.product.products.push(newProduct);
+                this.selectedProductToAdd = '';
+                this.selectedProductQuantity = 0;
+            }
+        });
+    }
+
+    removeProductFromGroup(product: Product) {
+        if (this.product.products) {
+            this.product.products = this.product.products.filter(p => p.id !== product.id);
+        }
+    }
+
+    updateProductQuantity(product: Product, quantity: number) {
+        if (this.product.products) {
+            const prod = this.product.products.find(p => p.id === product.id);
+            if (prod) {
+                prod.quantity = quantity;
+            }
+        }
     }
 
     deleteProduct(product: Product) {
@@ -87,20 +135,18 @@ export class RecebimentoComponent implements OnInit {
 
     confirmDeleteSelected() {
         this.deleteProductsDialog = false;
-        this.products = this.products.filter(val => !this.selectedProducts.includes(val));
-        this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Products Deletado', life: 3000 });
+        this.suppliers.forEach(supplier => {
+            supplier.products = supplier.products.filter(val => !this.selectedProducts.includes(val));
+        });
+        this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Produtos Deletados', life: 3000 });
         this.selectedProducts = [];
-        this.groupProductsBySupplier();
-        this.applyGlobalFilter();
     }
 
     confirmDelete() {
         this.deleteProductDialog = false;
-        this.products = this.products.filter(val => val.id !== this.product.id);
-        this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Produto deletado!', life: 3000 });
+        this.suppliers = this.suppliers.filter(supplier => supplier.id !== this.product.id);
+        this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Fornecedor Deletado!', life: 3000 });
         this.product = {};
-        this.groupProductsBySupplier();
-        this.applyGlobalFilter();
     }
 
     applyGlobalFilter() {
@@ -113,43 +159,69 @@ export class RecebimentoComponent implements OnInit {
 
     hideDialog() {
         this.productDialog = false;
+        this.editProductDialog = false;
         this.submitted = false;
     }
 
     saveProduct() {
         this.submitted = true;
 
-        if (this.product.name?.trim()) {
-            if (this.product.id) {
-                // @ts-ignore
-                this.product.inventoryStatus = this.product.inventoryStatus.value ? this.product.inventoryStatus.value : this.product.inventoryStatus;
-                this.products[this.findIndexById(this.product.id)] = this.product;
-                this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Produto Atualizado!', life: 3000 });
-            } else {
-                this.product.id = this.createId();
-                this.product.code = this.createId();
-                this.product.image = 'product-placeholder.svg';
-                // @ts-ignore
-                this.product.inventoryStatus = this.product.inventoryStatus ? this.product.inventoryStatus.value : 'INSTOCK';
-                this.products.push(this.product);
-                this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Produto Criado!', life: 3000 });
+        if (this.product.id) {
+            if (typeof this.product.inventoryStatus === 'object' && this.product.inventoryStatus !== null) {
+                this.product.inventoryStatus = (this.product.inventoryStatus as any).value;
             }
-
-            this.products = [...this.products];
-            this.productDialog = false;
-            this.product = {};
+            const supplier = this.suppliers.find(s => s.supplier === this.product.supplier);
+            if (supplier) {
+                const index = supplier.products.findIndex(p => p.id === this.product.id);
+                if (index !== -1) {
+                    supplier.products[index] = this.product;
+                }
+                supplier.status = supplier.products.some(p => p.inventoryStatus !== 'PENDENTE') ? 'EM ANÁLISE' : 'PENDENTE';
+            }
+            this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Produto Atualizado!', life: 3000 });
+        } else {
+            this.product.id = this.createId();
+            this.product.code = this.createId();
+            this.product.image = 'product-placeholder.svg';
+            if (typeof this.product.inventoryStatus === 'object' && this.product.inventoryStatus !== null) {
+                this.product.inventoryStatus = (this.product.inventoryStatus as any).value;
+            } else {
+                this.product.inventoryStatus = 'INSTOCK';
+            }
+            let supplier = this.suppliers.find(s => s.supplier === this.product.supplier);
+            if (!supplier) {
+                supplier = {
+                    id: this.createId(),
+                    code: this.createId(),
+                    supplier: this.product.supplier,
+                    date: this.product.date,
+                    products: [],
+                    status: 'PENDENTE'
+                };
+                this.suppliers.push(supplier);
+            }
+            supplier.products.push(this.product);
+            supplier.status = supplier.products.some(p => p.inventoryStatus !== 'PENDENTE') ? 'EM ANÁLISE' : 'PENDENTE';
+            this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Produto Criado!', life: 3000 });
         }
+
+        this.productDialog = false;
+        this.editProductDialog = false;
+        this.product = {};
     }
 
     findIndexById(id: string): number {
         let index = -1;
-        for (let i = 0; i < this.products.length; i++) {
-            if (this.products[i].id === id) {
-                index = i;
-                break;
+        for (let i = 0; i < this.suppliers.length; i++) {
+            const supplier = this.suppliers[i];
+            for (let j = 0; j < supplier.products.length; j++) {
+                if (supplier.products[j].id === id) {
+                    index = j;
+                    break;
+                }
             }
+            if (index !== -1) break;
         }
-
         return index;
     }
 
@@ -162,26 +234,25 @@ export class RecebimentoComponent implements OnInit {
         return id;
     }
 
-    onGlobalFilter(table: Table, event: Event) {
+    onGlobalFilter(event: Event) {
         const value = (event.target as HTMLInputElement).value.toLowerCase();
-        table.filterGlobal(value, 'contains');
+        this.productService.getRecebimento().then(data => {
+            this.suppliers = data;
+            this.suppliers.forEach(supplier => {
+                supplier.filteredProducts = supplier.products.filter(product => 
+                    product.name.toLowerCase().includes(value) ||
+                    product.category.toLowerCase().includes(value) ||
+                    product.inventoryStatus.toLowerCase().includes(value)
+                );
+            });
 
-        // Reset groupedProducts before applying the filter
-        this.groupProductsBySupplier();
-
-        this.groupedProducts.forEach(group => {
-            group.filteredProducts = group.products.filter(product => 
-                product.name.toLowerCase().includes(value) ||
-                product.category.toLowerCase().includes(value) ||
-                product.inventoryStatus.toLowerCase().includes(value)
+            this.suppliers = this.suppliers.filter(supplier => 
+                supplier.supplier.toLowerCase().includes(value) ||
+                supplier.date.toLowerCase().includes(value) ||
+                supplier.filteredProducts.length > 0
             );
+            this.updateSupplierStatuses();
         });
-
-        this.groupedProducts = this.groupedProducts.filter(group => 
-            group.supplier.toLowerCase().includes(value) ||
-            group.date.toLowerCase().includes(value) ||
-            group.filteredProducts.length > 0
-        );
     }
 
     getProductNames() {
@@ -190,50 +261,18 @@ export class RecebimentoComponent implements OnInit {
         });
     }
 
-    groupProductsBySupplier() {
-        const grouped = this.products.reduce((acc, product) => {
-            const supplier = product.description;
-            if (!acc[supplier]) {
-                acc[supplier] = { supplier, date: product.date, products: [], status: 'PENDENTE' };
-            }
-            acc[supplier].products.push(product);
-            return acc;
-        }, {});
-
-        this.groupedProducts = Object.values(grouped);
-
-        this.groupedProducts.forEach(group => {
-            if (group.products.some(product => product.inventoryStatus === 'EM ANÁLISE')) {
-                group.status = 'EM ANÁLISE';
-            }
-        });
-    }
-
-    toggleRow(event: Event, group: any) {
+    toggleRow(event: Event, supplier: any) {
         event.preventDefault();
-        this.expandedRows[group.supplier] = !this.expandedRows[group.supplier];
-    }
-
-    expandAllRows() {
-        this.groupedProducts.forEach(group => {
-            this.expandedRows[group.supplier] = true;
-        });
-    }
-
-    collapseAllRows() {
-        this.expandedRows = {};
-    }
-
-    toggleAllRows() {
-        if (Object.keys(this.expandedRows).length === this.groupedProducts.length) {
-            this.collapseAllRows();
-        } else {
-            this.expandAllRows();
-        }
+        this.expandedRows[supplier.supplier] = !this.expandedRows[supplier.supplier];
     }
 
     viewProduct(product: Product) {
         this.viewedProduct = product;
         this.viewProductDialog = true;
+    }
+
+    getSupplierStatus(supplierName: string): string {
+        const supplier = this.suppliers.find(s => s.supplier === supplierName);
+        return supplier ? supplier.status : '';
     }
 }

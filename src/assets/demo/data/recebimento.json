@@ -1,136 +1,192 @@
 {
-	"data": [
-		{
-			"id": "1000",
-			"code": "A001",
-			"name": "Maçã",
-			"description": "Fornecedor A",
-			"price": 1.30,
-			"category": "Unidade",
-			"quantity": 24,
-			"inventoryStatus": "PENDENTE",
-			"date": "15/01/2024 10:30"
-		},
-		{
-			"id": "1100",
-			"code": "B001",
-			"name": "Pera",
-			"description": "Fornecedor A",
-			"price": 3.30,
-			"category": "Unidade",
-			"quantity": 84,
-			"inventoryStatus": "EM ANÁLISE",
-			"date": "15/01/2024 10:30"
-		},
-		{
-			"id": "1100",
-			"code": "B001",
-			"name": "Abobrinha",
-			"description": "Fornecedor A",
-			"price": 3.30,
-			"category": "Quilograma (Kg)",
-			"quantity": 33,
-			"inventoryStatus": "APROVADO",
-			"date": "15/01/2024 10:30"
-		},
-		{
-			"id": "1001",
-			"code": "A002",
-			"name": "Banana",
-			"description": "Fornecedor B",
-			"price": 2.50,
-			"category": "Quilograma (Kg)",
-			"quantity": 61,
-			"inventoryStatus": "PENDENTE",
-			"date": "20/02/2024 14:45"
-		},
-		{
-			"id": "1002",
-			"code": "A003",
-			"name": "Cenoura",
-			"description": "Fornecedor C",
-			"price": 3.20,
-			"category": "Unidade",
-			"quantity": 2,
-			"inventoryStatus": "EM ANÁLISE",
-			"date": "10/03/2024 09:00"
-		},
-		{
-			"id": "1003",
-			"code": "A004",
-			"name": "Tomate",
-			"description": "Fornecedor D",
-			"price": 1.80,
-			"category": "Quilograma (Kg)",
-			"quantity": 25,
-			"inventoryStatus": "PENDENTE",
-			"date": "25/04/2024 16:15"
-		},
-		{
-			"id": "1004",
-			"code": "A005",
-			"name": "Alface",
-			"description": "Fornecedor E",
-			"price": 2.00,
-			"category": "Unidade",
-			"quantity": 73,
-			"inventoryStatus": "PENDENTE",
-			"date": "30/05/2024 11:20"
-		},
-		{
-			"id": "1005",
-			"code": "A006",
-			"name": "Laranja",
-			"description": "Fornecedor F",
-			"price": 1.50,
-			"category": "Quilograma (Kg)",
-			"quantity": 0,
-			"inventoryStatus": "PENDENTE",
-			"date": "18/06/2024 13:50"
-		},
-		{
-			"id": "1006",
-			"code": "A007",
-			"name": "Brócolis",
-			"description": "Fornecedor G",
-			"price": 2.80,
-			"category": "Unidade",
-			"quantity": 5,
-			"inventoryStatus": "EM ANÁLISE",
-			"date": "22/07/2024 08:40"
-		},
-		{
-			"id": "1007",
-			"code": "A008",
-			"name": "Morango",
-			"description": "Fornecedor H",
-			"price": 3.50,
-			"category": "Quilograma (Kg)",
-			"quantity": 23,
-			"inventoryStatus": "PENDENTE",
-			"date": "14/08/2024 15:30"
-		},
-		{
-			"id": "1008",
-			"code": "A009",
-			"name": "Uvas",
-			"description": "Fornecedor I",
-			"price": 4.00,
-			"category": "Unidade",
-			"quantity": 2,
-			"inventoryStatus": "EM ANÁLISE",
-			"date": "05/09/2024 12:10"
-		},
-		{
-			"id": "1009",
-			"code": "A010",
-			"name": "Pepino",
-			"description": "Fornecedor J",
-			"price": 1.20,
-			"category": "Quilograma (Kg)",
-			"quantity": 63,
-			"inventoryStatus": "PENDENTE",
-			"date": "28/10/2024 17:55"
-		}
-	]
+    "data": [
+        {
+            "id": "S001",
+            "code": "F001",
+            "supplier": "Fornecedor A",
+            "date": "15/01/2024 10:30",
+            "products": [
+                {
+                    "id": "1000",
+                    "code": "A001",
+                    "name": "Maçã",
+                    "price": 1.30,
+                    "category": "Unidade",
+                    "quantity": 24,
+                    "inventoryStatus": "PENDENTE"
+                },
+                {
+                    "id": "1100",
+                    "code": "B001",
+                    "name": "Pera",
+                    "price": 3.30,
+                    "category": "Unidade",
+                    "quantity": 84,
+                    "inventoryStatus": "EM ANÁLISE"
+                },
+                {
+                    "id": "1101",
+                    "code": "B002",
+                    "name": "Abobrinha",
+                    "price": 3.30,
+                    "category": "Quilograma (Kg)",
+                    "quantity": 33,
+                    "inventoryStatus": "APROVADO"
+                }
+            ]
+        },
+        {
+            "id": "S002",
+            "code": "F002",
+            "supplier": "Fornecedor B",
+            "date": "20/02/2024 14:45",
+            "products": [
+                {
+                    "id": "1001",
+                    "code": "A002",
+                    "name": "Banana",
+                    "price": 2.50,
+                    "category": "Quilograma (Kg)",
+                    "quantity": 61,
+                    "inventoryStatus": "PENDENTE"
+                }
+            ]
+        },
+        {
+            "id": "S003",
+            "code": "F003",
+            "supplier": "Fornecedor C",
+            "date": "10/03/2024 09:00",
+            "products": [
+                {
+                    "id": "1002",
+                    "code": "A003",
+                    "name": "Cenoura",
+                    "price": 3.20,
+                    "category": "Unidade",
+                    "quantity": 2,
+                    "inventoryStatus": "PENDENTE"
+                }
+            ]
+        },
+        {
+            "id": "S004",
+            "code": "F004",
+            "supplier": "Fornecedor D",
+            "date": "25/04/2024 16:15",
+            "products": [
+                {
+                    "id": "1003",
+                    "code": "A004",
+                    "name": "Tomate",
+                    "price": 1.80,
+                    "category": "Quilograma (Kg)",
+                    "quantity": 25,
+                    "inventoryStatus": "PENDENTE"
+                }
+            ]
+        },
+        {
+            "id": "S005",
+            "code": "F005",
+            "supplier": "Fornecedor E",
+            "date": "30/05/2024 11:20",
+            "products": [
+                {
+                    "id": "1004",
+                    "code": "A005",
+                    "name": "Alface",
+                    "price": 2.00,
+                    "category": "Unidade",
+                    "quantity": 73,
+                    "inventoryStatus": "PENDENTE"
+                }
+            ]
+        },
+        {
+            "id": "S006",
+            "code": "F006",
+            "supplier": "Fornecedor F",
+            "date": "18/06/2024 13:50",
+            "products": [
+                {
+                    "id": "1005",
+                    "code": "A006",
+                    "name": "Laranja",
+                    "price": 1.50,
+                    "category": "Quilograma (Kg)",
+                    "quantity": 0,
+                    "inventoryStatus": "PENDENTE"
+                }
+            ]
+        },
+        {
+            "id": "S007",
+            "code": "F007",
+            "supplier": "Fornecedor G",
+            "date": "22/07/2024 08:40",
+            "products": [
+                {
+                    "id": "1006",
+                    "code": "A007",
+                    "name": "Brócolis",
+                    "price": 2.80,
+                    "category": "Unidade",
+                    "quantity": 5,
+                    "inventoryStatus": "PENDENTE"
+                }
+            ]
+        },
+        {
+            "id": "S008",
+            "code": "F008",
+            "supplier": "Fornecedor H",
+            "date": "14/08/2024 15:30",
+            "products": [
+                {
+                    "id": "1007",
+                    "code": "A008",
+                    "name": "Morango",
+                    "price": 3.50,
+                    "category": "Quilograma (Kg)",
+                    "quantity": 23,
+                    "inventoryStatus": "PENDENTE"
+                }
+            ]
+        },
+        {
+            "id": "S009",
+            "code": "F009",
+            "supplier": "Fornecedor I",
+            "date": "05/09/2024 12:10",
+            "products": [
+                {
+                    "id": "1008",
+                    "code": "A009",
+                    "name": "Uvas",
+                    "price": 4.00,
+                    "category": "Unidade",
+                    "quantity": 2,
+                    "inventoryStatus": "PENDENTE"
+                }
+            ]
+        },
+        {
+            "id": "S010",
+            "code": "F010",
+            "supplier": "Fornecedor J",
+            "date": "28/10/2024 17:55",
+            "products": [
+                {
+                    "id": "1009",
+                    "code": "A010",
+                    "name": "Pepino",
+                    "price": 1.20,
+                    "category": "Quilograma (Kg)",
+                    "quantity": 63,
+                    "inventoryStatus": "PENDENTE"
+                }
+            ]
+        }
+    ]
 }

@@ -7,11 +7,13 @@ export interface Product {
     code?: string;
     name?: string;
     description?: string;
-    price?: number;
-    quantity?: number;
-    inventoryStatus?: InventoryStatus;
-    category?: string;
     image?: string;
+    price?: number;
+    category?: string;
+    quantity?: number;
+    inventoryStatus?: 'INSTOCK' | 'LOWSTOCK' | 'OUTOFSTOCK' | 'APROVADO' | 'EM ANÁLISE' | 'PENDENTE';
     rating?: number;
     date?: string;
+    products?: Product[];
+    supplier?: string; // Add this line
 }

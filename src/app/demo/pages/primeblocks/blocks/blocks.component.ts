@@ -249,7 +249,7 @@ export class BlocksComponent{
         </div>
         <div class="mt-3 lg:mt-0">
             <button pButton pRipple label="Add" class="p-button-outlined mr-2" icon="pi pi-user-plus"></button>
-            <button pButton pRipple label="Save" icon="pi pi-check"></button>
+            <button pButton pRipple label="Salvar" icon="pi pi-check"></button>
         </div>
     </div>
 </div>`;

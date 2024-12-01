@@ -3,11 +3,11 @@
         <div class="card px-6 py-6">
             <app-header-screen title="Recebimento" buttonLabel="Novo Recebimento" (click)="openNew()" />
             <p-toast></p-toast>
-            <p-table #dt [value]="groupedProducts" responsiveLayout="scroll" [rows]="10" [paginator]="true"
+            <p-table #dt [value]="suppliers" responsiveLayout="scroll" [rows]="10" [paginator]="true"
                 [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                 [(selection)]="selectedProducts" selectionMode="multiple" [rowHover]="true" dataKey="supplier"
-                [expandedRowKeys]="expandedRows">
+                [expandedRowKeys]="expandedRows" [globalFilterFields]="['supplier', 'date', 'products.name', 'products.category', 'products.inventoryStatus']">
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
                         <button pButton pRipple label="Expandir/Colapsar Todos" icon="pi pi-arrows-alt"
@@ -15,7 +15,7 @@
                         <h5 class="m-0">Gerencie Produtos</h5>
                         <span class="block mt-2 md:mt-0 p-input-icon-left">
                             <i class="pi pi-search"></i>
-                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Pesquisar"
+                            <input pInputText type="text" (input)="onGlobalFilter($event)" placeholder="Pesquisar"
                                 class="w-full sm:w-auto" />
                         </span>
                     </div>
@@ -29,33 +29,33 @@
                         <th>Ações</th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-group let-expanded="expanded">
+                <ng-template pTemplate="body" let-supplier let-expanded="expanded">
                     <tr>
                         <td>
-                            <a href="#" (click)="toggleRow($event, group)">
+                            <a href="#" (click)="toggleRow($event, supplier)">
                                 <i class="pi"
                                     [ngClass]="{'pi-chevron-down': expanded, 'pi-chevron-right': !expanded}"></i>
                             </a>
                         </td>
-                        <td>{{group.supplier}}</td>
-                        <td>{{group.date}}</td>
-                        <td><app-cbadge [status]="group.status"></app-cbadge></td>
+                        <td>{{supplier.supplier}}</td>
+                        <td>{{supplier.date}}</td>
+                        <td><app-cbadge [status]="supplier.status"></app-cbadge></td>
                         <td>
                             <div class="flex">
                                 <button pButton pRipple icon="pi pi-pencil"
                                     class="p-button-rounded p-button-success mr-2"
-                                    (click)="editProduct(group)"></button>
-                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-                                    (click)="deleteProduct(group)"></button>
+                                    (click)="editProduct(supplier)"></button>
+                                <button [disabled]="supplier.status !== 'PENDENTE'" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                                    (click)="deleteProduct(supplier)"></button>
                             </div>
                         </td>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="rowexpansion" let-group>
+                <ng-template pTemplate="rowexpansion" let-supplier>
                     <tr>
                         <td colspan="5" style="padding: 0;">
                             <div style="padding: 1rem;">
-                                <p-table [value]="group.filteredProducts || group.products" responsiveLayout="scroll">
+                                <p-table [value]="supplier.filteredProducts || supplier.products" responsiveLayout="scroll">
                                     <ng-template pTemplate="header">
                                         <tr>
                                             <th pSortableColumn="name">Nome <p-sortIcon field="name"></p-sortIcon></th>
@@ -91,26 +91,20 @@
             </p-table>
         </div>
 
-        <p-dialog [(visible)]="productDialog" [style]="{width: '450px'}" header="Novo Produto" [modal]="true"
-            class="p-fluid">
+        <p-dialog [(visible)]="editProductDialog" [style]="{width: '60%', height: '70%'}" header="{{product.id ? 'Editar Produto' : 'Novo Produto'}}" [modal]="true" class="p-fluid">
             <ng-template pTemplate="content">
-                <img [src]="'assets/demo/images/product/' + product.image" [alt]="product.image" width="150"
-                    class="mt-0 mx-auto mb-5 block shadow-2" *ngIf="product.image">
                 <div class="field">
-                    <label for="name">Nome</label>
-                    <p-dropdown [(ngModel)]="product.name" [options]="estoqueProdutos"
-                        placeholder="Select a Product"></p-dropdown>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.name">Name is required.</small>
+                    <label for="supplier">Fornecedor</label>
+                    <input type="text" pInputText id="supplier" [(ngModel)]="product.supplier" [disabled]="!!product.id" />
                 </div>
                 <div class="field">
-                    <label for="description">Código</label>
-                    <input type="text" pInputText id="code" [(ngModel)]="product.code" required autofocus
-                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.code}" />
+                    <label for="date">Data Recebimento</label>
+                    <input *ngIf="product.id" type="text" pInputText id="date" [(ngModel)]="product.date" [disabled]="!!product.id" />
+                    <input *ngIf="!product.id" type="date" pInputText id="date" [(ngModel)]="product.date" [disabled]="!!product.id" />
                 </div>
                 <div class="field">
-                    <label for="status">Triagem</label>
-                    <p-dropdown [(ngModel)]="product.inventoryStatus" inputId="inventoryStatus" optionValue="label"
-                        [options]="statuses" placeholder="Select">
+                    <label for="status">Status</label>
+                    <p-dropdown *ngIf="!product.id" [(ngModel)]="product.inventoryStatus" inputId="status" optionValue="label" [options]="statuses" placeholder="Select" [disabled]="true">
                         <ng-template pTemplate="selectedItem">
                             <app-cbadge [status]="product.inventoryStatus"></app-cbadge>
                         </ng-template>
@@ -118,34 +112,54 @@
                             <app-cbadge [status]="option.label"></app-cbadge>
                         </ng-template>
                     </p-dropdown>
+                    <p-dropdown *ngIf="product.id" [(ngModel)]="product.inventoryStatus" inputId="status" [disabled]="true">
+                        <ng-template pTemplate="selectedItem">
+                            <app-cbadge [status]="getSupplierStatus(product.supplier)"></app-cbadge>
+                        </ng-template>
+                    </p-dropdown>
                 </div>
-                <div class="field">
-                    <label for="quantity">Quantidade</label>
-                    <input type="text" pInputText id="quantity" [(ngModel)]="product.quantity" required autofocus
-                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.quantity}" />
-                </div>
-                <div class="field">
-                    <label class="mb-3">Tipo</label>
-                    <div class="formgrid grid">
-                        <div class="field-radiobutton col-6">
-                            <p-radioButton id="category1" name="unidade" value="Unidade"
-                                [(ngModel)]="product.category"></p-radioButton>
-                            <label for="category1">Unidade</label>
-                        </div>
-                        <div class="field-radiobutton col-6">
-                            <p-radioButton id="category2" name="quilograma" value="Quilograma (Kg)"
-                                [(ngModel)]="product.category"></p-radioButton>
-                            <label for="category2">Quilograma (Kg)</label>
-                        </div>
+                <div class="formgrid grid">
+                    <div class="field col-12">
+                        <label for="productToAdd">Adicionar Produto</label>
+                    </div>
+                    <div class="field col-6">
+                        <p-dropdown [(ngModel)]="selectedProductToAdd" [options]="estoqueProdutos" placeholder="Selecione um produto"></p-dropdown>
+                    </div>
+                    <div class="field col-3">
+                        <input type="number" pInputText [(ngModel)]="selectedProductQuantity" placeholder="Quantidade" min="0" />
+                    </div>
+                    <div class="field col-3">
+                        <button pButton pRipple label="Adicionar Produto" icon="pi pi-plus" (click)="addProductToGroup()"></button>
                     </div>
                 </div>
+                <p-table [value]="product.products" responsiveLayout="scroll">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Nome</th>
+                            <th>Unidade Medida</th>
+                            <th>Triagem</th>
+                            <th>Quantidade</th>
+                            <th>Ações</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-prod>
+                        <tr>
+                            <td>{{prod.name}}</td>
+                            <td>{{prod.category}}</td>
+                            <td><app-cbadge [status]="prod.inventoryStatus"></app-cbadge></td>
+                            <td>
+                                <input type="number" pInputText [(ngModel)]="prod.quantity" (change)="updateProductQuantity(prod, prod.quantity)" [disabled]="prod.inventoryStatus !== 'PENDENTE'" min="0" />
+                            </td>
+                            <td>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="removeProductFromGroup(prod)" [disabled]="prod.inventoryStatus !== 'PENDENTE'"></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
             </ng-template>
-
             <ng-template pTemplate="footer">
-                <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
-                    (click)="hideDialog()"></button>
-                <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text"
-                    (click)="saveProduct()"></button>
+                <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+                <button pButton pRipple label="Salvar" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button>
             </ng-template>
         </p-dialog>
 
@@ -181,7 +195,7 @@
                 </div>
             </ng-template>
             <ng-template pTemplate="footer">
-                <button pButton pRipple label="Close" icon="pi pi-times" class="p-button-text" (click)="viewProductDialog = false"></button>
+                <button pButton pRipple label="Fechar" icon="pi pi-times" class="p-button-text" (click)="viewProductDialog = false"></button>
             </ng-template>
         </p-dialog>
 
@@ -201,7 +215,7 @@
         <p-dialog [(visible)]="deleteProductsDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span>Tem certeza de que deseja excluir selected products?</span>
+                <span>Tem certeza de que deseja excluir produtos selecionados?</span>
             </div>
             <ng-template pTemplate="footer">
                 <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Não"

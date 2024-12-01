@@ -74,7 +74,7 @@ export class CrudComponent implements OnInit {
     confirmDeleteSelected() {
         this.deleteProductsDialog = false;
         this.products = this.products.filter(val => !this.selectedProducts.includes(val));
-        this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Products Deletado', life: 3000 });
+        this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'produtos Deletado', life: 3000 });
         this.selectedProducts = [];
     }
 
