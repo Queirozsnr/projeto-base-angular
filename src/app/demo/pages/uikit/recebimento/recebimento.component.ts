@@ -266,6 +266,17 @@ export class RecebimentoComponent implements OnInit {
         this.expandedRows[supplier.supplier] = !this.expandedRows[supplier.supplier];
     }
 
+    toggleAllRows() {
+        const allExpanded = Object.keys(this.expandedRows).length === this.suppliers.length;
+        if (allExpanded) {
+            this.expandedRows = {};
+        } else {
+            this.suppliers.forEach(supplier => {
+                this.expandedRows[supplier.supplier] = true;
+            });
+        }
+    }
+
     viewProduct(product: Product) {
         this.viewedProduct = product;
         this.viewProductDialog = true;
