@@ -18,6 +18,8 @@ export class RecebimentoComponent implements OnInit {
 
     suppliers: any[] = []; // Change to hold suppliers
 
+    fornecedores: any[] = []; // Add this line
+
     product: Product = {};
 
     selectedProducts: Product[] = [];
@@ -51,6 +53,10 @@ export class RecebimentoComponent implements OnInit {
             this.updateSupplierStatuses();
         });
 
+        this.productService.getFornecedores().then(data => {
+            this.fornecedores = data;
+        });
+
         this.cols = [
             { field: 'product', header: 'Product' },
             { field: 'price', header: 'Price' },
@@ -78,6 +84,7 @@ export class RecebimentoComponent implements OnInit {
         this.product.inventoryStatus = 'PENDENTE'; // Set default status to PENDENTE
         this.product.date = new Date().toISOString().split('T')[0]; // Set default date to today
         this.product.products = []; // Initialize products array
+        this.product.supplier = ''; // Reset supplier
         this.submitted = false;
         this.editProductDialog = true; // Use the same modal as edit
     }

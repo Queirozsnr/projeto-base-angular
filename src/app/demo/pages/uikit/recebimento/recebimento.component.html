@@ -91,71 +91,76 @@
             </p-table>
         </div>
 
-        <p-dialog [(visible)]="editProductDialog" [style]="{width: '60%', height: '70%'}" header="{{product.id ? 'Editar Produto' : 'Novo Produto'}}" [modal]="true" class="p-fluid">
+        <p-dialog [(visible)]="editProductDialog" [style]="{width: '60%', minHeight: '63%'}" header="{{product.id ? 'Editar Produto' : 'Novo Produto'}}" [modal]="true" class="p-fluid">
             <ng-template pTemplate="content">
-                <div class="field">
-                    <label for="supplier">Fornecedor</label>
-                    <input type="text" pInputText id="supplier" [(ngModel)]="product.supplier" [disabled]="!!product.id" />
-                </div>
-                <div class="field">
-                    <label for="date">Data Recebimento</label>
-                    <input *ngIf="product.id" type="text" pInputText id="date" [(ngModel)]="product.date" [disabled]="!!product.id" />
-                    <input *ngIf="!product.id" type="date" pInputText id="date" [(ngModel)]="product.date" [disabled]="!!product.id" />
-                </div>
-                <div class="field">
-                    <label for="status">Status</label>
-                    <p-dropdown *ngIf="!product.id" [(ngModel)]="product.inventoryStatus" inputId="status" optionValue="label" [options]="statuses" placeholder="Select" [disabled]="true">
-                        <ng-template pTemplate="selectedItem">
-                            <app-cbadge [status]="product.inventoryStatus"></app-cbadge>
-                        </ng-template>
-                        <ng-template let-option pTemplate="item">
-                            <app-cbadge [status]="option.label"></app-cbadge>
-                        </ng-template>
-                    </p-dropdown>
-                    <p-dropdown *ngIf="product.id" [(ngModel)]="product.inventoryStatus" inputId="status" [disabled]="true">
-                        <ng-template pTemplate="selectedItem">
-                            <app-cbadge [status]="getSupplierStatus(product.supplier)"></app-cbadge>
-                        </ng-template>
-                    </p-dropdown>
-                </div>
-                <div class="formgrid grid">
+                <div class="formgrid grid mt-3">
+                    <div class="field col-12 md:col-6">
+                        <label for="supplier">Fornecedor</label>
+                        <input type="text" *ngIf="product.id" pInputText id="supplier" [(ngModel)]="product.supplier" [disabled]="!!product.id" />
+                        <p-dropdown *ngIf="!product.id" [options]="fornecedores" [(ngModel)]="product.supplier" optionLabel="name" placeholder="Selecione um fornecedor" [disabled]="!!product.id"></p-dropdown>
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <label for="date">Data Recebimento</label>
+                        <input *ngIf="product.id" type="text" pInputText id="date" [(ngModel)]="product.date" [disabled]="!!product.id" />
+                        <input *ngIf="!product.id" type="date" pInputText id="date" [(ngModel)]="product.date" [disabled]="!!product.id" />
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <label for="status">Status</label>
+                        <p-dropdown *ngIf="!product.id" [(ngModel)]="product.inventoryStatus" inputId="status" optionValue="label" [options]="statuses" placeholder="Select" [disabled]="true">
+                            <ng-template pTemplate="selectedItem">
+                                <app-cbadge [status]="product.inventoryStatus"></app-cbadge>
+                            </ng-template>
+                            <ng-template let-option pTemplate="item">
+                                <app-cbadge [status]="option.label"></app-cbadge>
+                            </ng-template>
+                        </p-dropdown>
+                        <p-dropdown *ngIf="product.id" [(ngModel)]="product.inventoryStatus" inputId="status" [disabled]="true">
+                            <ng-template pTemplate="selectedItem">
+                                <app-cbadge [status]="getSupplierStatus(product.supplier)"></app-cbadge>
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
                     <div class="field col-12">
                         <label for="productToAdd">Adicionar Produto</label>
                     </div>
-                    <div class="field col-6">
+                    <div class="field col-12 md:col-6">
                         <p-dropdown [(ngModel)]="selectedProductToAdd" [options]="estoqueProdutos" placeholder="Selecione um produto"></p-dropdown>
                     </div>
-                    <div class="field col-3">
+                    <div class="field col-12 md:col-3">
                         <input type="number" pInputText [(ngModel)]="selectedProductQuantity" placeholder="Quantidade" min="0" />
                     </div>
-                    <div class="field col-3">
+                    <div class="field col-12 md:col-3">
                         <button pButton pRipple label="Adicionar Produto" icon="pi pi-plus" (click)="addProductToGroup()"></button>
                     </div>
                 </div>
-                <p-table [value]="product.products" responsiveLayout="scroll">
-                    <ng-template pTemplate="header">
-                        <tr>
-                            <th>Nome</th>
-                            <th>Unidade Medida</th>
-                            <th>Triagem</th>
-                            <th>Quantidade</th>
-                            <th>Ações</th>
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-prod>
-                        <tr>
-                            <td>{{prod.name}}</td>
-                            <td>{{prod.category}}</td>
-                            <td><app-cbadge [status]="prod.inventoryStatus"></app-cbadge></td>
-                            <td>
-                                <input type="number" pInputText [(ngModel)]="prod.quantity" (change)="updateProductQuantity(prod, prod.quantity)" [disabled]="prod.inventoryStatus !== 'PENDENTE'" min="0" />
-                            </td>
-                            <td>
-                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="removeProductFromGroup(prod)" [disabled]="prod.inventoryStatus !== 'PENDENTE'"></button>
-                            </td>
-                        </tr>
-                    </ng-template>
-                </p-table>
+                <div class="field col-12">
+                    <div style="max-height: 300px; overflow-y: auto;">
+                        <p-table id="tableProducts" [value]="product.products" responsiveLayout="scroll" scrollable="true" scrollHeight="300px">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Unidade Medida</th>
+                                    <th>Triagem</th>
+                                    <th>Quantidade</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-prod>
+                                <tr>
+                                    <td>{{prod.name}}</td>
+                                    <td>{{prod.category}}</td>
+                                    <td><app-cbadge [status]="prod.inventoryStatus"></app-cbadge></td>
+                                    <td>
+                                        <input type="number" pInputText [(ngModel)]="prod.quantity" (change)="updateProductQuantity(prod, prod.quantity)" [disabled]="prod.inventoryStatus !== 'PENDENTE'" min="0" />
+                                    </td>
+                                    <td>
+                                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="removeProductFromGroup(prod)" [disabled]="prod.inventoryStatus !== 'PENDENTE'"></button>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
             </ng-template>
             <ng-template pTemplate="footer">
                 <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
