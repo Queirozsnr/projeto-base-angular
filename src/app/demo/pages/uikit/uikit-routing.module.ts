@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
         { path: 'cadastrofornecedor', data: { breadcrumb: 'Float Label' }, loadChildren: () => import('./cadastrofornecedor/cadastrofornecedor.module').then(m => m.CadastroFornecedorModule) },
         { path: 'cadastrousuario', data: { breadcrumb: 'Float Label' }, loadChildren: () => import('./cadastrousuario/cadastrousuario.module').then(m => m.CadastroUsuarioModule) },
         { path: 'recebimento', data: { breadcrumb: 'Float Label' }, loadChildren: () => import('./recebimento/recebimento.module').then(m => m.RecebimentoModule) },
+        { path: 'triagem', data: { breadcrumb: 'Float Label' }, loadChildren: () => import('./triagem/triagem.module').then(m => m.TriagemModule) },
         { path: 'estoque', data: { breadcrumb: 'Float Label' }, loadChildren: () => import('./estoque/estoque.module').then(m => m.EstoqueModule) },
         { path: 'formlayout', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./formlayout/formlayoutdemo.module').then(m => m.FormLayoutDemoModule) },
         { path: 'input', data: { breadcrumb: 'Input' }, loadChildren: () => import('./input/inputdemo.module').then(m => m.InputDemoModule) },

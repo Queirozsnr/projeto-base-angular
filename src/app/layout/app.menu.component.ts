@@ -32,6 +32,7 @@ export class AppMenuComponent implements OnInit {
                 label: 'Estoques',
                 items: [
                     { label: 'Recebimento', icon: 'pi pi-fw pi-window-minimize', routerLink: ['/uikit/recebimento'] },
+                    { label: 'Triagem', icon: 'pi pi-fw pi-filter', routerLink: ['/uikit/triagem'] },
                     { label: 'Estoque', icon: 'pi pi-fw pi-table', routerLink: ['/uikit/estoque'] },
                 ]
             },
