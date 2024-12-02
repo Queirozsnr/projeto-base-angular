@@ -45,6 +45,16 @@ export class TriagemComponent implements OnInit {
 
     selectedProductQuantity: number = 0;
 
+    triageStarted: boolean = false;
+    triageCompleted: boolean = false;
+    quantityCorrect: boolean = true;
+    extraviatedProduct: boolean = false;
+    extraviatedQuantity: number = 0;
+    justification: string = '';
+    justificationQuantity: string = '';
+
+    confirmCancelTriageDialog: boolean = false;
+
     constructor(private productService: ProductService, private messageService: MessageService) { }
 
     ngOnInit() {
@@ -185,6 +195,9 @@ export class TriagemComponent implements OnInit {
                 }
                 supplier.status = supplier.products.some(p => p.inventoryStatus !== 'PENDENTE') ? 'EM ANÁLISE' : 'PENDENTE';
             }
+            if (this.triageCompleted) {
+                this.product.triageCompleted = true;
+            }
             this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Produto Atualizado!', life: 3000 });
         } else {
             this.product.id = this.createId();
@@ -287,10 +300,44 @@ export class TriagemComponent implements OnInit {
     viewProduct(product: Product) {
         this.viewedProduct = product;
         this.viewProductDialog = true;
+        this.triageStarted = false;
+        this.triageCompleted = product.triageCompleted || false;
     }
 
     getSupplierStatus(supplierName: string): string {
         const supplier = this.suppliers.find(s => s.supplier === supplierName);
         return supplier ? supplier.status : '';
+    }
+
+    startTriage() {
+        this.triageStarted = true;
+        this.triageCompleted = false;
+        this.quantityCorrect = true;
+        this.extraviatedProduct = false;
+        this.extraviatedQuantity = 0;
+        this.justification = '';
+        this.justificationQuantity = '';
+        this.viewedProduct.inventoryStatus = 'EM ANÁLISE';
+    }
+
+    completeTriage() {
+        this.triageCompleted = true;
+        this.triageStarted = false;
+        this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Triagem Finalizada!', life: 3000 });
+        this.viewedProduct.inventoryStatus = 'APROVADO';
+    }
+
+    confirmCancelTriage() {
+        if (this.triageStarted) {
+            this.confirmCancelTriageDialog = true;
+        } else {
+            this.viewProductDialog = false;
+        }
+    }
+
+    cancelTriage() {
+        this.confirmCancelTriageDialog = false;
+        this.viewProductDialog = false;
+        this.triageStarted = false;
     }
 }

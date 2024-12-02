@@ -16,4 +16,5 @@ export interface Product {
     date?: string;
     products?: Product[];
     supplier?: string; // Add this line
+    triageCompleted?: boolean;
 }

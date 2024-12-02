@@ -42,11 +42,9 @@
                         <td><app-cbadge [status]="supplier.status"></app-cbadge></td>
                         <td>
                             <div class="flex">
-                                <button pButton pRipple icon="pi pi-pencil"
-                                    class="p-button-rounded p-button-success mr-2"
+                                <button pButton pRipple icon="pi pi-search"
+                                    class="p-button-rounded p-button-info mr-2"
                                     (click)="editProduct(supplier)"></button>
-                                <button [disabled]="supplier.status !== 'PENDENTE'" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-                                    (click)="deleteProduct(supplier)"></button>
                             </div>
                         </td>
                     </tr>
@@ -79,7 +77,8 @@
                                                 <app-cbadge [status]="product.inventoryStatus"></app-cbadge>
                                             </td>
                                             <td style="width:10%; min-width: 5rem;">
-                                                <button pButton pRipple icon="pi pi-search" class="p-button-rounded p-button-info" (click)="viewProduct(product)"></button>
+                                                <button *ngIf="product.inventoryStatus !== 'APROVADO'" pButton pRipple icon="pi pi-play" class="p-button-rounded p-button-success" (click)="viewProduct(product)"></button>
+                                                <button *ngIf="product.inventoryStatus === 'APROVADO'" pButton pRipple icon="pi pi-search" class="p-button-rounded p-button-success" (click)="viewProduct(product)"></button>
                                             </td>
                                         </tr>
                                     </ng-template>
@@ -91,46 +90,16 @@
             </p-table>
         </div>
 
-        <p-dialog [(visible)]="editProductDialog" [style]="{width: '60%', minHeight: '63%'}" header="{{product.id ? 'Editar Produto' : 'Novo Produto'}}" [modal]="true" class="p-fluid">
+        <p-dialog [(visible)]="editProductDialog" [style]="{width: '60%'}" header="Visualizar Produto" [modal]="true" class="p-fluid">
             <ng-template pTemplate="content">
                 <div class="formgrid grid mt-3">
                     <div class="field col-12 md:col-6">
                         <label for="supplier">Fornecedor</label>
                         <input type="text" *ngIf="product.id" pInputText id="supplier" [(ngModel)]="product.supplier" [disabled]="!!product.id" />
-                        <p-dropdown *ngIf="!product.id" [options]="fornecedores" [(ngModel)]="product.supplier" optionLabel="name" placeholder="Selecione um fornecedor" [disabled]="!!product.id"></p-dropdown>
                     </div>
                     <div class="field col-12 md:col-6">
                         <label for="date">Data Recebimento</label>
                         <input *ngIf="product.id" type="text" pInputText id="date" [(ngModel)]="product.date" [disabled]="!!product.id" />
-                        <input *ngIf="!product.id" type="date" pInputText id="date" [(ngModel)]="product.date" [disabled]="!!product.id" />
-                    </div>
-                    <div class="field col-12 md:col-6">
-                        <label for="status">Status</label>
-                        <p-dropdown *ngIf="!product.id" [(ngModel)]="product.inventoryStatus" inputId="status" optionValue="label" [options]="statuses" placeholder="Select" [disabled]="true">
-                            <ng-template pTemplate="selectedItem">
-                                <app-cbadge [status]="product.inventoryStatus"></app-cbadge>
-                            </ng-template>
-                            <ng-template let-option pTemplate="item">
-                                <app-cbadge [status]="option.label"></app-cbadge>
-                            </ng-template>
-                        </p-dropdown>
-                        <p-dropdown *ngIf="product.id" [(ngModel)]="product.inventoryStatus" inputId="status" [disabled]="true">
-                            <ng-template pTemplate="selectedItem">
-                                <app-cbadge [status]="getSupplierStatus(product.supplier)"></app-cbadge>
-                            </ng-template>
-                        </p-dropdown>
-                    </div>
-                    <div class="field col-12">
-                        <label for="productToAdd">Adicionar Produto</label>
-                    </div>
-                    <div class="field col-12 md:col-6">
-                        <p-dropdown [(ngModel)]="selectedProductToAdd" [options]="estoqueProdutos" placeholder="Selecione um produto"></p-dropdown>
-                    </div>
-                    <div class="field col-12 md:col-3">
-                        <input type="number" pInputText [(ngModel)]="selectedProductQuantity" placeholder="Quantidade" min="0" />
-                    </div>
-                    <div class="field col-12 md:col-3">
-                        <button pButton pRipple label="Adicionar Produto" icon="pi pi-plus" (click)="addProductToGroup()"></button>
                     </div>
                 </div>
                 <div class="field col-12">
@@ -142,7 +111,6 @@
                                     <th>Unidade Medida</th>
                                     <th>Triagem</th>
                                     <th>Quantidade</th>
-                                    <th>Ações</th>
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-prod>
@@ -151,10 +119,7 @@
                                     <td>{{prod.category}}</td>
                                     <td><app-cbadge [status]="prod.inventoryStatus"></app-cbadge></td>
                                     <td>
-                                        <input type="number" pInputText [(ngModel)]="prod.quantity" (change)="updateProductQuantity(prod, prod.quantity)" [disabled]="prod.inventoryStatus !== 'PENDENTE'" min="0" />
-                                    </td>
-                                    <td>
-                                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="removeProductFromGroup(prod)" [disabled]="prod.inventoryStatus !== 'PENDENTE'"></button>
+                                        <input type="number" pInputText [(ngModel)]="prod.quantity" (change)="updateProductQuantity(prod, prod.quantity)" disabled min="0" />
                                     </td>
                                 </tr>
                             </ng-template>
@@ -163,44 +128,96 @@
                 </div>
             </ng-template>
             <ng-template pTemplate="footer">
-                <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-                <button pButton pRipple label="Salvar" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button>
+                <button pButton pRipple label="Fechar" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
             </ng-template>
         </p-dialog>
 
-        <p-dialog [(visible)]="viewProductDialog" [style]="{width: '450px'}" header="Visualizar Produto" [modal]="true" class="p-fluid">
+        <p-dialog [(visible)]="viewProductDialog" [style]="{width: '60%'}" [modal]="true" class="p-fluid" [closable]="!triageStarted">
+            <ng-template pTemplate="header">
+                <h3 [ngClass]="{'text-primary': triageStarted}">
+                    {{ triageStarted ? 'Triagem Iniciada' : 'Editar Produto' }}
+                </h3>
+            </ng-template>
             <ng-template pTemplate="content">
-                <img [src]="'assets/demo/images/product/' + viewedProduct.image" [alt]="viewedProduct.image" width="150" class="mt-0 mx-auto mb-5 block shadow-2" *ngIf="viewedProduct.image">
-                <div class="field">
-                    <label for="name">Nome</label>
-                    <input type="text" pInputText id="name" [(ngModel)]="viewedProduct.name" disabled />
-                </div>
-                <div class="field">
-                    <label for="code">Código</label>
-                    <input type="text" pInputText id="code" [(ngModel)]="viewedProduct.code" disabled />
-                </div>
-                <div class="field">
-                    <label for="status">Triagem</label>
-                    <p-dropdown [(ngModel)]="viewedProduct.inventoryStatus" inputId="inventoryStatus" optionValue="label" [options]="statuses" [disabled]="true">
-                        <ng-template pTemplate="selectedItem">
-                            <app-cbadge [status]="viewedProduct.inventoryStatus"></app-cbadge>
-                        </ng-template>
-                        <ng-template let-option pTemplate="item">
-                            <app-cbadge [status]="option.label"></app-cbadge>
-                        </ng-template>
-                    </p-dropdown>
-                </div>
-                <div class="field">
-                    <label for="quantity">Quantidade</label>
-                    <input type="text" pInputText id="quantity" [(ngModel)]="viewedProduct.quantity" disabled />
-                </div>
-                <div class="field">
-                    <label for="category">Tipo</label>
-                    <input type="text" pInputText id="category" [(ngModel)]="viewedProduct.category" disabled />
+                <div class="formgrid grid">
+                    <div class="field col-12 md:col-6">
+                        <label for="name">Nome</label>
+                        <input type="text" pInputText id="name" [(ngModel)]="viewedProduct.name" disabled />
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <label for="code">Código</label>
+                        <input type="text" pInputText id="code" [(ngModel)]="viewedProduct.code" disabled />
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label for="status">Triagem</label>
+                        <p-dropdown [(ngModel)]="viewedProduct.inventoryStatus" inputId="inventoryStatus" optionValue="label" [options]="statuses" [disabled]="true">
+                            <ng-template pTemplate="selectedItem">
+                                <app-cbadge [status]="viewedProduct.inventoryStatus"></app-cbadge>
+                            </ng-template>
+                            <ng-template let-option pTemplate="item">
+                                <app-cbadge [status]="option.label"></app-cbadge>
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label for="quantity">Quantidade</label>
+                        <input type="text" pInputText id="quantity" [(ngModel)]="viewedProduct.quantity" disabled />
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label for="category">Tipo</label>
+                        <input type="text" pInputText id="category" [(ngModel)]="viewedProduct.category" disabled />
+                    </div>
+                    <div class="field col-12 grid" *ngIf="triageStarted || triageCompleted">
+                        <label class="col-12 text-xl" for="quantityCorrect">A quantidade está correta?</label>
+                        <div class="col-6 md:col-3">
+                            <p-radioButton name="quantityCorrect" value="true" [(ngModel)]="quantityCorrect" label="Sim" [disabled]="triageCompleted"></p-radioButton>
+                        </div>
+                        <div class="col-6 md:col-3">
+                            <p-radioButton name="quantityCorrect" value="false" [(ngModel)]="quantityCorrect" label="Não" [disabled]="triageCompleted"></p-radioButton>
+                        </div>
+                    </div>
+                    <div class="field col-12 md:col-6" *ngIf="(triageStarted || triageCompleted) && quantityCorrect === 'false'">
+                        <label for="correctQuantity">Quantidade Correta</label>
+                        <input type="number" pInputText id="correctQuantity" [(ngModel)]="viewedProduct.quantity" min="0" [disabled]="triageCompleted" />
+                    </div>
+                    <div class="field col-12" *ngIf="(triageStarted || triageCompleted) && quantityCorrect === 'false'">
+                        <label for="justificationQuantity">Justificativa</label>
+                        <textarea pInputTextarea id="justificationQuantity" [(ngModel)]="justificationQuantity" [disabled]="triageCompleted"></textarea>
+                    </div>
+                    <div class="field col-12 grid" *ngIf="triageStarted || triageCompleted">
+                        <label class="col-12 text-xl" for="extraviatedProduct">Tem produto extraviado?</label>
+                        <div class="col-6 md:col-3">
+                            <p-radioButton name="extraviatedProduct" value="true" [(ngModel)]="extraviatedProduct" label="Sim" [disabled]="triageCompleted"></p-radioButton>
+                        </div>
+                        <div class="col-6 md:col-3">
+                            <p-radioButton name="extraviatedProduct" value="false" [(ngModel)]="extraviatedProduct" label="Não" [disabled]="triageCompleted"></p-radioButton>
+                        </div>
+                    </div>
+                    <div class="field col-12 md:col-6" *ngIf="(triageStarted || triageCompleted) && extraviatedProduct === 'true'">
+                        <label for="extraviatedQuantity">Quantidade de produtos extraviados</label>
+                        <input type="number" pInputText id="extraviatedQuantity" [(ngModel)]="extraviatedQuantity" min="0" [disabled]="triageCompleted" />
+                    </div>
+                    <div class="field col-12" *ngIf="(triageStarted || triageCompleted) && extraviatedProduct === 'true'">
+                        <label for="justification">Justificativa</label>
+                        <textarea pInputTextarea id="justification" [(ngModel)]="justification" [disabled]="triageCompleted"></textarea>
+                    </div>
                 </div>
             </ng-template>
             <ng-template pTemplate="footer">
-                <button pButton pRipple label="Fechar" icon="pi pi-times" class="p-button-text" (click)="viewProductDialog = false"></button>
+                <button pButton pRipple label="Iniciar Triagem" icon="pi pi-play" class="p-button-text" (click)="startTriage()" *ngIf="!triageStarted && !triageCompleted && viewedProduct.inventoryStatus !== 'APROVADO'"></button>
+                <button pButton pRipple label="Finalizar Triagem" icon="pi pi-check" class="p-button-text" (click)="completeTriage()" *ngIf="triageStarted"></button>
+                <button pButton pRipple label="Fechar" icon="pi pi-times" class="p-button-text" (click)="confirmCancelTriage()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="confirmCancelTriageDialog" header="Confirmar" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>Tem certeza de que deseja cancelar a triagem?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Não" (click)="confirmCancelTriageDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Sim" (click)="cancelTriage()"></button>
             </ng-template>
         </p-dialog>
 
