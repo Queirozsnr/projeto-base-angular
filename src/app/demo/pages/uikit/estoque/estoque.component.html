@@ -1,0 +1,100 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+			<app-header-screen title="Estoque" [showButton]="false" />
+            <p-toast></p-toast>
+            <p-table #dt [value]="products" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['name','code','price','category','quantity']" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedProducts" selectionMode="multiple" [rowHover]="true" dataKey="id">
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">Gerencie Produtos</h5>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Pesquisar"  class="w-full sm:w-auto"/>
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="code">Código <p-sortIcon field="code"></p-sortIcon></th>
+                        <th pSortableColumn="name">Nome <p-sortIcon field="name"></p-sortIcon></th>
+                        <th pSortableColumn="category">Unidade Medida <p-sortIcon field="category"></p-sortIcon></th>
+                        <th pSortableColumn="category">Quantidade <p-sortIcon field="category"></p-sortIcon></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-product>
+                    <tr>
+                        <td><span class="p-column-title">Código</span>
+                            {{product.code || product.id}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Nome</span>
+                            {{product.name}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Categoria</span>
+                            {{product.category}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Categoria</span>
+                            {{product.quantity}}
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <p-dialog [(visible)]="productDialog" [style]="{width: '450px'}" header="Novo Produto" [modal]="true" class="p-fluid">
+            <ng-template pTemplate="content">
+                <div class="field">
+                    <label for="name">Nome</label>
+                    <input type="text" pInputText id="name" [(ngModel)]="product.name" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.name}"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.name">Name is required.</small>
+                </div>
+                <div class="field">
+                    <label for="description">Código</label>
+                    <input type="text" pInputText id="code" [(ngModel)]="product.code" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.code}"/>
+                </div>
+                <div class="field">
+                    <label class="mb-3">Tipo</label>
+                    <div class="formgrid grid">
+                        <div class="field-radiobutton col-6">
+                            <p-radioButton id="category1" name="category" value="Unidade" [(ngModel)]="product.category"></p-radioButton>
+                            <label for="category1">Unidade</label>
+                        </div>
+                        <div class="field-radiobutton col-6">
+                            <p-radioButton id="category2" name="category" value="KG" [(ngModel)]="product.category"></p-radioButton>
+                            <label for="category2">Quilograma (Kg)</label>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+                <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+                <button pButton pRipple label="Salvar" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="deleteProductDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span *ngIf="product">Tem certeza de que deseja excluir <b>{{product.name}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Não" (click)="deleteProductDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Sim" (click)="confirmDelete()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="deleteProductsDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>Tem certeza de que deseja excluir produtos selecionados?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Não" (click)="deleteProductsDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Sim" (click)="confirmDeleteSelected()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

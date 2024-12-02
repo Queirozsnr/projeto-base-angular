@@ -10,6 +10,7 @@ export class HeaderScreenComponent {
   @Input() buttonLabel: string = 'Novo Cadastro';
   @Input() modalContent: TemplateRef<any>;
   @Input() modalWidth: string = '50%';
+  @Input() showButton: boolean = true;
   @Output() buttonClick = new EventEmitter<void>();
   
   modalVisible: boolean = false;

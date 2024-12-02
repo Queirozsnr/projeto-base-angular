@@ -32,7 +32,7 @@ export class AppMenuComponent implements OnInit {
                 label: 'Estoques',
                 items: [
                     { label: 'Recebimento', icon: 'pi pi-fw pi-window-minimize', routerLink: ['/uikit/recebimento'] },
-                    { label: 'All Blocks', icon: 'pi pi-fw pi-globe', url: ['https://www.primefaces.org/primeblocks-ng'], target: '_blank' },
+                    { label: 'Estoque', icon: 'pi pi-fw pi-table', routerLink: ['/uikit/estoque'] },
                 ]
             },
             {
