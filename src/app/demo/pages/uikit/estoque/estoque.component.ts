@@ -26,7 +26,11 @@ export class EstoqueComponent implements OnInit {
 
     cols: any[] = [];
 
-    statuses: any[] = [];
+    statuses: any[] = [
+        { label: 'INSTOCK', value: 'instock' },
+        { label: 'LOWSTOCK', value: 'lowstock' },
+        { label: 'OUTOFSTOCK', value: 'outofstock' }
+    ];
 
     rowsPerPageOptions = [5, 10, 20];
 
@@ -137,5 +141,26 @@ export class EstoqueComponent implements OnInit {
 
     onGlobalFilter(table: Table, event: Event) {
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+    }
+
+    exportToCSV(table: Table) {
+        const filteredProducts = table.filteredValue || this.products;
+        const csvData = filteredProducts.map(product => ({
+            Código: product.code || product.id,
+            Nome: product.name,
+            Categoria: product.category,
+            Quantidade: product.quantity
+        }));
+
+        const csvContent = 'data:text/csv;charset=utf-8,' + 
+            ['Código,Nome,Categoria,Quantidade', ...csvData.map(e => Object.values(e).join(', '))].join('\n');
+
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement('a');
+        link.setAttribute('href', encodedUri);
+        link.setAttribute('download', 'produtos.csv');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     }
 }

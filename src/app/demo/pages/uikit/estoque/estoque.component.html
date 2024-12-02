@@ -11,6 +11,7 @@
                             <i class="pi pi-search"></i>
                             <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Pesquisar"  class="w-full sm:w-auto"/>
                         </span>
+                        <button pButton type="button" label="Exportar CSV" icon="pi pi-file" (click)="exportToCSV(dt)" class="ml-2"></button>
                     </div>
                 </ng-template>
                 <ng-template pTemplate="header">
@@ -18,7 +19,27 @@
                         <th pSortableColumn="code">Código <p-sortIcon field="code"></p-sortIcon></th>
                         <th pSortableColumn="name">Nome <p-sortIcon field="name"></p-sortIcon></th>
                         <th pSortableColumn="category">Unidade Medida <p-sortIcon field="category"></p-sortIcon></th>
-                        <th pSortableColumn="category">Quantidade <p-sortIcon field="category"></p-sortIcon></th>
+                        <th pSortableColumn="quantity">Quantidade <p-sortIcon field="quantity"></p-sortIcon>
+                            <p-columnFilter type="numeric" field="quantity" display="menu" 
+                                filterPlaceholder="Filtrar Quantidade" 
+                                [matchModeOptions]="[
+                                    {label: 'Igual', value: 'equals'}, 
+                                    {label: 'Diferente', value: 'notEquals'}, 
+                                    {label: 'Menor que', value: 'lt'}, 
+                                    {label: 'Maior que', value: 'gt'}, 
+                                    {label: 'Menor ou igual a', value: 'lte'}, 
+                                    {label: 'Maior ou igual a', value: 'gte'}
+                                ]"
+                                filterLocale="pt"
+                                [filterMatchModeOptions]="[
+                                    {label: 'Corresponder a todos', value: 'all'},
+                                    {label: 'Corresponder a qualquer', value: 'any'}
+                                ]"
+                                filterAddRuleLabel="Adicionar Regra"
+                                filterClearLabel="Limpar"
+                                filterApplyLabel="Aplicar">
+                            </p-columnFilter>
+                        </th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-product>
@@ -66,6 +87,10 @@
                             <label for="category2">Quilograma (Kg)</label>
                         </div>
                     </div>
+                </div>
+                <div class="field">
+                    <label for="status">Status</label>
+                    <p-dropdown [options]="statuses" [(ngModel)]="selectedStatus" optionLabel="label" placeholder="Selecione um Status"></p-dropdown>
                 </div>
             </ng-template>
 

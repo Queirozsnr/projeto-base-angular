@@ -94,17 +94,17 @@
         <p-dialog [(visible)]="editProductDialog" [style]="{width: '60%', minHeight: '63%'}" header="{{product.id ? 'Editar Produto' : 'Novo Produto'}}" [modal]="true" class="p-fluid">
             <ng-template pTemplate="content">
                 <div class="formgrid grid mt-3">
-                    <div class="field col-12 md:col-6">
+                    <div class="field col-12 md:col-4">
                         <label for="supplier">Fornecedor</label>
                         <input type="text" *ngIf="product.id" pInputText id="supplier" [(ngModel)]="product.supplier" [disabled]="!!product.id" />
-                        <p-dropdown *ngIf="!product.id" [options]="fornecedores" [(ngModel)]="product.supplier" optionLabel="name" placeholder="Selecione um fornecedor" [disabled]="!!product.id"></p-dropdown>
+                        <p-dropdown *ngIf="!product.id" [options]="fornecedores" [(ngModel)]="product.supplier" optionLabel="name" placeholder="Selecione um fornecedor" [disabled]="!!product.id" filter="true" filterBy="name" emptyFilterMessage="Nenhum resultado encontrado"></p-dropdown>
                     </div>
-                    <div class="field col-12 md:col-6">
+                    <div class="field col-12 md:col-4">
                         <label for="date">Data Recebimento</label>
                         <input *ngIf="product.id" type="text" pInputText id="date" [(ngModel)]="product.date" [disabled]="!!product.id" />
                         <input *ngIf="!product.id" type="date" pInputText id="date" [(ngModel)]="product.date" [disabled]="!!product.id" />
                     </div>
-                    <div class="field col-12 md:col-6">
+                    <div class="field col-12 md:col-4">
                         <label for="status">Status</label>
                         <p-dropdown *ngIf="!product.id" [(ngModel)]="product.inventoryStatus" inputId="status" optionValue="label" [options]="statuses" placeholder="Select" [disabled]="true">
                             <ng-template pTemplate="selectedItem">
@@ -124,7 +124,7 @@
                         <label for="productToAdd">Adicionar Produto</label>
                     </div>
                     <div class="field col-12 md:col-6">
-                        <p-dropdown [(ngModel)]="selectedProductToAdd" [options]="estoqueProdutos" placeholder="Selecione um produto"></p-dropdown>
+                        <p-dropdown [(ngModel)]="selectedProductToAdd" [options]="estoqueProdutos" placeholder="Selecione um produto" filter="true" emptyFilterMessage="Nenhum resultado encontrado"></p-dropdown>
                     </div>
                     <div class="field col-12 md:col-3">
                         <input type="number" pInputText [(ngModel)]="selectedProductQuantity" placeholder="Quantidade" min="0" />
