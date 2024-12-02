@@ -149,11 +149,13 @@ export class EstoqueComponent implements OnInit {
             Código: product.code || product.id,
             Nome: product.name,
             Categoria: product.category,
-            Quantidade: product.quantity
+            Quantidade: product.quantity,
+            Preço: product.price,
+            PreçoTotal: product.priceTotal,
         }));
 
         const csvContent = 'data:text/csv;charset=utf-8,' + 
-            ['Código,Nome,Categoria,Quantidade', ...csvData.map(e => Object.values(e).join(', '))].join('\n');
+            ['Código,Nome,Categoria,Quantidade,Preço,Preço Total', ...csvData.map(e => Object.values(e).join(';'))].join('\n');
 
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement('a');

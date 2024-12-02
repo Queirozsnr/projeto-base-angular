@@ -3,7 +3,7 @@
         <div class="card px-6 py-6">
 			<app-header-screen title="Estoque" [showButton]="false" />
             <p-toast></p-toast>
-            <p-table #dt [value]="products" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['name','code','price','category','quantity']" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedProducts" selectionMode="multiple" [rowHover]="true" dataKey="id">
+            <p-table #dt [value]="products" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['name','code','price','category','quantity', 'price', 'priceTotal']" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedProducts" selectionMode="multiple" [rowHover]="true" dataKey="id">
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
                         <h5 class="m-0">Gerencie Produtos</h5>
@@ -40,6 +40,8 @@
                                 filterApplyLabel="Aplicar">
                             </p-columnFilter>
                         </th>
+                        <th pSortableColumn="price">Preço Unitário<p-sortIcon field="price"></p-sortIcon></th>
+                        <th pSortableColumn="priceTotal">Preço Total <p-sortIcon field="priceTotal"></p-sortIcon></th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-product>
@@ -58,6 +60,14 @@
                         <td>
                             <span class="p-column-title">Categoria</span>
                             {{product.quantity}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Categoria</span>
+                            {{product.price | currency:'BRL'}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Categoria</span>
+                            {{product.priceTotal | currency:'BRL'}}
                         </td>
                     </tr>
                 </ng-template>

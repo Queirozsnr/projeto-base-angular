@@ -17,7 +17,7 @@
             <i class="pi pi-calendar"></i>
             <span>Calendar</span>
         </button>
-        <button class="p-link layout-topbar-button">
+        <button class="p-link layout-topbar-button" (click)="layoutService.toggleProfileDropdown()">
             <i class="pi pi-user"></i>
             <span>Profile</span>
         </button>
@@ -25,5 +25,11 @@
             <i class="pi pi-cog"></i>
             <span>Settings</span>
         </button>
+    </div>
+    <div class="profile-dropdown" *ngIf="layoutService.state.profileDropdownVisible" style="position: absolute; top: 100%; right: 40px; background: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); border-radius: 4px; padding: 1rem;">
+        <div class="profile-item" style="padding: 0.5rem 0;cursor: pointer;" (click)="logout()">
+            <i class="pi pi-sign-out" style="margin-right: 0.5rem;"></i>
+            <span>Sair</span>
+        </div>
     </div>
 </div>

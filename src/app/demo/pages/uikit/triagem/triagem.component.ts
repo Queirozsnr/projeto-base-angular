@@ -118,6 +118,7 @@ export class TriagemComponent implements OnInit {
                     category: selectedProduct.category,
                     inventoryStatus: 'PENDENTE' as 'PENDENTE',
                     quantity: this.selectedProductQuantity,
+                    priceTotal: selectedProduct.priceTotal,
                     // ...other necessary fields...
                 };
                 if (!this.product.products) {

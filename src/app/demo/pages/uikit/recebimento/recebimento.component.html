@@ -60,25 +60,35 @@
                                         <tr>
                                             <th pSortableColumn="name">Nome <p-sortIcon field="name"></p-sortIcon></th>
                                             <th pSortableColumn="category">Unidade Medida <p-sortIcon field="category"></p-sortIcon></th>
+                                            <th pSortableColumn="price">Quantidade <p-sortIcon field="price"></p-sortIcon></th>
+                                            <th pSortableColumn="price">Preço <p-sortIcon field="price"></p-sortIcon></th>
                                             <th>Triagem</th>
                                             <th>Ações</th>
                                         </tr>
                                     </ng-template>
                                     <ng-template pTemplate="body" let-product>
                                         <tr>
-                                            <td style="width:20%; min-width:10rem;">
+                                            <td>
                                                 <span class="p-column-title">Nome</span>
                                                 {{product.name}}
                                             </td>
-                                            <td style="width:20%; min-width:10rem;">
+                                            <td>
                                                 <span class="p-column-title">Unidade Medida</span>
                                                 {{product.category}}
                                             </td>
-                                            <td style="width:17%; min-width: 10rem;">
+                                            <td>
+                                                <span class="p-column-title">Quantidade</span>
+                                                {{product.quantity}}
+                                            </td>
+                                            <td>
+                                                <span class="p-column-title">Preço</span>
+                                                {{product.priceTotal | currency:'BRL'}}
+                                            </td>
+                                            <td>
                                                 <span class="p-column-title">Status</span>
                                                 <app-cbadge [status]="product.inventoryStatus"></app-cbadge>
                                             </td>
-                                            <td style="width:10%; min-width: 5rem;">
+                                            <td>
                                                 <button pButton pRipple icon="pi pi-search" class="p-button-rounded p-button-info" (click)="viewProduct(product)"></button>
                                             </td>
                                         </tr>
@@ -126,10 +136,10 @@
                     <div class="field col-12 md:col-6">
                         <p-dropdown [(ngModel)]="selectedProductToAdd" [options]="estoqueProdutos" placeholder="Selecione um produto" filter="true" emptyFilterMessage="Nenhum resultado encontrado"></p-dropdown>
                     </div>
-                    <div class="field col-12 md:col-3">
+                    <div class="field col-12 md:col-6 lg:col-3">
                         <input type="number" pInputText [(ngModel)]="selectedProductQuantity" placeholder="Quantidade" min="0" />
                     </div>
-                    <div class="field col-12 md:col-3">
+                    <div class="field col-12 lg:col-3">
                         <button pButton pRipple label="Adicionar Produto" icon="pi pi-plus" (click)="addProductToGroup()"></button>
                     </div>
                 </div>
@@ -140,8 +150,10 @@
                                 <tr>
                                     <th>Nome</th>
                                     <th>Unidade Medida</th>
+                                    <th>Preço</th>
                                     <th>Triagem</th>
                                     <th>Quantidade</th>
+                                    <th>Preço Total</th>
                                     <th>Ações</th>
                                 </tr>
                             </ng-template>
@@ -149,9 +161,14 @@
                                 <tr>
                                     <td>{{prod.name}}</td>
                                     <td>{{prod.category}}</td>
+                                    <td>{{prod.priceTotal}}</td>
                                     <td><app-cbadge [status]="prod.inventoryStatus"></app-cbadge></td>
-                                    <td>
+                                    <td style="width: 20%; min-width: 5rem;">
                                         <input type="number" pInputText [(ngModel)]="prod.quantity" (change)="updateProductQuantity(prod, prod.quantity)" [disabled]="prod.inventoryStatus !== 'PENDENTE'" min="0" />
+                                    </td>
+                                    <td>
+                                        <span class="p-column-title">Preço Total</span>
+                                        {{prod.priceTotal | currency:'BRL'}}
                                     </td>
                                     <td>
                                         <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="removeProductFromGroup(prod)" [disabled]="prod.inventoryStatus !== 'PENDENTE'"></button>
@@ -197,6 +214,10 @@
                 <div class="field">
                     <label for="category">Tipo</label>
                     <input type="text" pInputText id="category" [(ngModel)]="viewedProduct.category" disabled />
+                </div>
+                <div class="field">
+                    <label for="price">Preço</label>
+                    <input type="text" pInputText id="price" [value]="viewedProduct.price | currency:'BRL'" disabled />
                 </div>
             </ng-template>
             <ng-template pTemplate="footer">

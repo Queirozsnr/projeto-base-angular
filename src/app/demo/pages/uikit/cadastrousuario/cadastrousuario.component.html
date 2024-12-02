@@ -21,8 +21,6 @@
                 <ng-template pTemplate="header">
                     <tr>
                         <th pSortableColumn="name">Nome <p-sortIcon field="name"></p-sortIcon></th>
-                        <th pSortableColumn="inventoryStatus">CPF <p-sortIcon field="inventoryStatus"></p-sortIcon></th>
-                        <th pSortableColumn="category">Contato <p-sortIcon field="category"></p-sortIcon></th>
                         <th pSortableColumn="departamento">Departamento <p-sortIcon field="departamento"></p-sortIcon>
                         </th>
                         <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
@@ -35,14 +33,6 @@
                         <td>
                             <span class="p-column-title">Nome</span>
                             {{product.name}}
-                        </td>
-                        <td>
-                            <span class="p-column-title">CPF</span>
-                            {{product.description}}
-                        </td>
-                        <td>
-                            <span class="p-column-title">Contato</span>
-                            {{product.category}}
                         </td>
                         <td>
                             <span class="p-column-title">Departamento</span>

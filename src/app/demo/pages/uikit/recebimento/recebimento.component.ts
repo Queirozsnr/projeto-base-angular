@@ -108,7 +108,8 @@ export class RecebimentoComponent implements OnInit {
                     category: selectedProduct.category,
                     inventoryStatus: 'PENDENTE' as 'PENDENTE',
                     quantity: this.selectedProductQuantity,
-                    // ...other necessary fields...
+                    price: selectedProduct.price,
+                    priceTotal: selectedProduct.priceTotal,
                 };
                 if (!this.product.products) {
                     this.product.products = [];
@@ -285,8 +286,12 @@ export class RecebimentoComponent implements OnInit {
     }
 
     viewProduct(product: Product) {
-        this.viewedProduct = product;
+        this.viewedProduct = { ...product };
         this.viewProductDialog = true;
+    }
+
+    formatPrice(price: number): string {
+        return price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     }
 
     getSupplierStatus(supplierName: string): string {

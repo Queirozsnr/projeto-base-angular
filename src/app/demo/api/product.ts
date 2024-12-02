@@ -9,6 +9,7 @@ export interface Product {
     description?: string;
     image?: string;
     price?: number;
+    priceTotal?: number;
     category?: string;
     quantity?: number;
     inventoryStatus?: 'INSTOCK' | 'LOWSTOCK' | 'OUTOFSTOCK' | 'APROVADO' | 'EM ANÁLISE' | 'PENDENTE';

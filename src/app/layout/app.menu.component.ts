@@ -39,7 +39,8 @@ export class AppMenuComponent implements OnInit {
             {
                 label: 'Pedidos',
                 items: [
-                    { label: 'Pedidos - Em breve', icon: 'pi pi-fw pi-eye', routerLink: ['/blocks'], badge: 'NEW' },
+                    { label: 'Relatório de Pedidos', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/uikit/charts'] },
+                    { label: 'Pedidos - Em breve', icon: 'pi pi-fw pi-eye', routerLink: ['/pages/empty'], badge: 'NEW' },
                 ]
             },
             // {

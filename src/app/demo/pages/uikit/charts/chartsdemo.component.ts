@@ -47,16 +47,16 @@ export class ChartsDemoComponent implements OnInit, OnDestroy {
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
         
         this.barData = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho'],
             datasets: [
                 {
-                    label: 'My First dataset',
+                    label: 'Quantidade Esperada',
                     backgroundColor: documentStyle.getPropertyValue('--primary-500'),
                     borderColor: documentStyle.getPropertyValue('--primary-500'),
                     data: [65, 59, 80, 81, 56, 55, 40]
                 },
                 {
-                    label: 'My Second dataset',
+                    label: 'Quantidade Real',
                     backgroundColor: documentStyle.getPropertyValue('--primary-200'),
                     borderColor: documentStyle.getPropertyValue('--primary-200'),
                     data: [28, 48, 40, 19, 86, 27, 90]
@@ -127,10 +127,10 @@ export class ChartsDemoComponent implements OnInit, OnDestroy {
         };
 
         this.lineData = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho'],
             datasets: [
                 {
-                    label: 'First Dataset',
+                    label: 'Valor A',
                     data: [65, 59, 80, 81, 56, 55, 40],
                     fill: false,
                     backgroundColor: documentStyle.getPropertyValue('--primary-500'),
@@ -138,7 +138,7 @@ export class ChartsDemoComponent implements OnInit, OnDestroy {
                     tension: .4
                 },
                 {
-                    label: 'Second Dataset',
+                    label: 'Valor B',
                     data: [28, 48, 40, 19, 86, 27, 90],
                     fill: false,
                     backgroundColor: documentStyle.getPropertyValue('--primary-200'),
@@ -195,10 +195,10 @@ export class ChartsDemoComponent implements OnInit, OnDestroy {
                 label: 'My dataset'
             }],
             labels: [
-                'Indigo',
-                'Purple',
-                'Teal',
-                'Orange'
+                'Índigo',
+                'Roxo',
+                'Verde-azulado',
+                'Laranja'
             ]
         };
 
@@ -223,7 +223,7 @@ export class ChartsDemoComponent implements OnInit, OnDestroy {
             labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'],
             datasets: [
                 {
-                    label: 'My First dataset',
+                    label: 'Valor A',
                     borderColor: documentStyle.getPropertyValue('--indigo-400'),
                     pointBackgroundColor: documentStyle.getPropertyValue('--indigo-400'),
                     pointBorderColor: documentStyle.getPropertyValue('--indigo-400'),
@@ -232,7 +232,7 @@ export class ChartsDemoComponent implements OnInit, OnDestroy {
                     data: [65, 59, 90, 81, 56, 55, 40]
                 },
                 {
-                    label: 'My Second dataset',
+                    label: 'Valor B',
                     borderColor: documentStyle.getPropertyValue('--purple-400'),
                     pointBackgroundColor: documentStyle.getPropertyValue('--purple-400'),
                     pointBorderColor: documentStyle.getPropertyValue('--purple-400'),

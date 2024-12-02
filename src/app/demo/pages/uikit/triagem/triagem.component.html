@@ -58,6 +58,8 @@
                                         <tr>
                                             <th pSortableColumn="name">Nome <p-sortIcon field="name"></p-sortIcon></th>
                                             <th pSortableColumn="category">Unidade Medida <p-sortIcon field="category"></p-sortIcon></th>
+                                            <th>Quantidade</th>
+                                            <th>Preço Total</th>
                                             <th>Triagem</th>
                                             <th>Ações</th>
                                         </tr>
@@ -71,6 +73,14 @@
                                             <td style="width:20%; min-width:10rem;">
                                                 <span class="p-column-title">Unidade Medida</span>
                                                 {{product.category}}
+                                            </td>
+                                            <td style="width:10%; min-width: 5rem;">
+                                                <span class="p-column-title">Quantidade</span>
+                                                {{product.quantity}}
+                                            </td>
+                                            <td style="width:10%; min-width: 5rem;">
+                                                <span class="p-column-title">Preço Total</span>
+                                                {{product.priceTotal | currency:'BRL'}}
                                             </td>
                                             <td style="width:17%; min-width: 10rem;">
                                                 <span class="p-column-title">Status</span>
@@ -111,6 +121,7 @@
                                     <th>Unidade Medida</th>
                                     <th>Triagem</th>
                                     <th>Quantidade</th>
+                                    <th>Preço Total</th>
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-prod>
@@ -118,8 +129,12 @@
                                     <td>{{prod.name}}</td>
                                     <td>{{prod.category}}</td>
                                     <td><app-cbadge [status]="prod.inventoryStatus"></app-cbadge></td>
-                                    <td>
+                                    <td style="width: 20%; min-width: 5rem;">
                                         <input type="number" pInputText [(ngModel)]="prod.quantity" (change)="updateProductQuantity(prod, prod.quantity)" disabled min="0" />
+                                    </td>
+                                    <td>
+                                        <span class="p-column-title">Preço Total</span>
+                                        {{prod.priceTotal | currency:'BRL'}}
                                     </td>
                                 </tr>
                             </ng-template>
@@ -166,6 +181,10 @@
                     <div class="field col-12 md:col-4">
                         <label for="category">Tipo</label>
                         <input type="text" pInputText id="category" [(ngModel)]="viewedProduct.category" disabled />
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label for="price">Preço</label>
+                        <input type="text" pInputText id="price" [(ngModel)]="viewedProduct.priceTotal" disabled />
                     </div>
                     <div class="field col-12 grid" *ngIf="triageStarted || triageCompleted">
                         <label class="col-12 text-xl" for="quantityCorrect">A quantidade está correta?</label>
