@@ -9,12 +9,16 @@
                     <span class="text-600 font-medium">Faça login para continuar</span>
                 </div>
 
-                <div>
-                    <label for="email1" class="block text-900 text-xl font-medium mb-2">Email</label>
-                    <input id="email1" type="text" placeholder="Endereço de email" pInputText class="w-full md:w-30rem mb-5" style="padding:1rem">
+                <div grid>
+                    <div class="col-12">
+                        <label for="email1" class="block text-900 text-xl font-medium mb-2">Email</label>
+                        <input id="email1" type="text" placeholder="Endereço de email" pInputText class="w-full md:w-30rem" style="padding:1rem">
+                    </div>
 
-                    <label for="password1" class="block text-900 font-medium text-xl mb-2">Senha</label>
-                    <p-password id="password1" [(ngModel)]="password" placeholder="Digite uma senha" [toggleMask]="true" styleClass="mb-5" inputStyleClass="w-full p-3 md:w-30rem"></p-password>
+                    <div class="col-12">
+                        <label for="password1" class="block text-900 font-medium text-xl mb-2">Senha</label>
+                        <p-password id="password1" [(ngModel)]="password" placeholder="Digite uma senha" [toggleMask]="true" inputStyleClass="w-full py-3 md:w-30rem"></p-password>
+                    </div>
 
                     <div class="flex align-items-center justify-content-between mb-5 gap-5">
                         <div class="flex align-items-center">
